@@ -26,5 +26,10 @@ namespace GuvercinApp.Controllers
 
             return View();
         }
+
+        public ActionResult RegisterPage()
+        {
+            return View();
+        }
     }
 }
