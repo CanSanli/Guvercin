@@ -15,7 +15,15 @@
 /*
  * Base structure
  */
+.text-bg-light {
+    background-color: #f8f9fa; /* Bootstrap light background */
+    color: #212529; /* Bootstrap dark text for light background */
+}
 
+.text-bg-dark {
+    background-color: #343a40; /* Bootstrap dark background */
+    color: #ffffff; /* White text for dark background */
+}
 body {
     height: 100%; /* Tüm sayfanýn tam ekran olmasýný saðlar */
     margin: 0;
