@@ -1,14 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace Guvercin.DataAccessLayer
 {
-    public class DataContext:DbContext
+    public class DataContext : DbContext
     {
-            public DbSet<IndividualMember> ındividualMembers { get; set; }
+        public DbSet<IndividualMember> individualMembers { get; set; }
+        public DbSet<HouseholdMember> householdMembers { get; set; }
+
+        //protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<IndividualMember>()
+        //        .HasMany(im => im.HouseholdMembers)
+        //        .WithRequired(hm => hm.IndividualMember)
+        //        .HasForeignKey(hm => hm.IndividualMemberId);
+
+        //    base.OnModelCreating(modelBuilder);
+        //}
+
     }
+
+
 }

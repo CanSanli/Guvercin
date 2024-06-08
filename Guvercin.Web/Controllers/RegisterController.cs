@@ -1,4 +1,5 @@
 ﻿using Guvercin.BusinessLayer.Abstract;
+using GuvercinApp.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,11 +16,37 @@ namespace Guvercin.Web.Controllers
             return View();
         }
 
-        public ActionResult IndividualMemberSave(IndividualMember individualMember)
+        public ActionResult IndividualMemberSave(RegViewModel model)
         {
+            if (model.IndividualMember.HouseholdSize != 0)
+            {
+
+            }
             Repository<IndividualMember> rpIndividualMember = new Repository<IndividualMember>();
-            rpIndividualMember.Insert(individualMember);
+            rpIndividualMember.Insert(model.IndividualMember);
             return RedirectToAction("Index");
         }
+
+
+
+        //public ActionResult IndividualMemberSave(RegisterViewModel model)
+        //{
+        //    if (ModelState.IsValid)
+        //    {
+        //        using (var context = new DataContext())
+        //        {
+        //            context.IndividualMembers.Add(model.IndividualMember);
+        //            context.SaveChanges();
+
+        //            foreach (var member in model.HouseholdMembers)
+        //            {
+        //                member.IndividualMemberId = model.IndividualMember.IndividualMemberId;
+        //                context.HouseholdMembers.Add(member);
+        //            }
+        //            context.SaveChanges();
+        //        }
+        //        return RedirectToAction("Index");
+        //    }
+        //}
     }
 }

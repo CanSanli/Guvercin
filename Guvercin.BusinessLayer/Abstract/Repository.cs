@@ -80,7 +80,7 @@ namespace Guvercin.BusinessLayer.Abstract
                 {
                     foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                        Console.WriteLine("Property: {0} Error: {1}",
+                       Console.WriteLine("Property: {0} Error: {1}",
                                           validationError.PropertyName,
                                           validationError.ErrorMessage);
                     }
