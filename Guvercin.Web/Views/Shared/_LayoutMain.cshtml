@@ -2,7 +2,36 @@
 
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
-    
+    <style>
+        .custom-font {
+            font-family:'Leelawadee UI', 'Arial Narrow', Arial, sans-serif, sans-serif;
+        }
+        .shadow-bottom {
+            box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.06);
+        }
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+       
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+       
+
+        footer {
+           
+            bottom: 0;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            text-align: center;
+            flex-shrink: 0;
+        }
+    </style>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const themeSwitchers = document.querySelectorAll('[data-bs-theme-value]');
@@ -48,6 +77,7 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css")
     <link href="~/Content/cover.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
 
@@ -57,26 +87,31 @@
 
 </head>
 
-<body class="d-flex h-auto text-bg-dark ">
+<body class="d-flex h-100 text-bg-dark">
     
-    <div class=" d-flex p-3 mx-auto flex-column w-100">
+    <div class=" h-100 d-flex  mx-auto flex-column  w-100">
 
-        <header class="mb-auto">
-            <div>
-                <h3 class="float-md-start mb-0">Cover</h3>
-                <nav class="nav nav-masthead justify-content-center float-md-end">
-                    <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="/Home/Index">Home</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="/Register/Index">Register</a>
-                    <a class="nav-link fw-bold py-1 px-0" href="/Home/Contact">Contact</a>
+        <header >
+            <div class="px-3 py-2 shadow-bottom">
+                <a aria-current="page" class="navbar-brand fw-bolder fs-2 custom-font" href="/Home/Index">MELEK YATIRIM</a>
+                <nav class="nav nav-masthead justify-content-center float-md-end mx-xl-5">
+                    <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="/Home/Index">Ana Sayfa</a> @*!!!!!!!*@
+                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Yardımlarım</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Home/GetSupport">Yardım Al</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Yardım Et</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Profilim</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Çıkış</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Register/Index">Kayıt Ol</a>
+
                 </nav>
             </div>
         </header>
-        <div class=" container">
+        <div class="py-5 container">
             @RenderBody()
         </div>
 
         <div class="mw-100">
-            <footer class="container-fluid bg-black text-white py-3">
+            <footer class="d-flex align-items-center justify-content-center container-fluid bg-black text-white py-3">
                 <h1 class="text-center">BURAYI FOOTER YAPAK İŞTE</h1>
             </footer>
         </div>
