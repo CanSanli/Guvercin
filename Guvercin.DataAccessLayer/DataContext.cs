@@ -9,6 +9,6 @@ namespace Guvercin.DataAccessLayer
 {
     public class DataContext:DbContext
     {
-
+            public DbSet<IndividualMember> ındividualMembers { get; set; }
     }
 }

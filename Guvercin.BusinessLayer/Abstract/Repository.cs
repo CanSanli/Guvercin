@@ -69,7 +69,23 @@ namespace Guvercin.BusinessLayer.Abstract
 
         public void Save()
         {
-            _dataContext.SaveChanges();
+            try
+            {
+                // Veritabanı işlemleri
+                _dataContext.SaveChanges();
+            }
+            catch (System.Data.Entity.Validation.DbEntityValidationException dbEx)
+            {
+                foreach (var validationErrors in dbEx.EntityValidationErrors)
+                {
+                    foreach (var validationError in validationErrors.ValidationErrors)
+                    {
+                        Console.WriteLine("Property: {0} Error: {1}",
+                                          validationError.PropertyName,
+                                          validationError.ErrorMessage);
+                    }
+                }
+            }
         }
 
         public void Update(T t)
