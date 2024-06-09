@@ -37,6 +37,17 @@
             .autocomplete-suggestion:hover {
                 background-color: #e9e9e9;
             }
+
+        .list-group-item {
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .list-group-item:hover {
+                background-color: #f8f9fa;
+            }
     </style>
 </head>
 <body class="bg-light">
@@ -55,13 +66,23 @@
                         <div id="autocomplete-results" class="autocomplete-suggestions"></div>
                     </div>
                     <div class="form-group">
+                        <label for="helpType">Yardım Türü</label>
+                        <select class="form-control" id="helpType">
+                            <option value="Gıda Yardımı">Gıda Yardımı</option>
+                            <option value="Maddi Yardım">Maddi Yardım</option>
+                            <option value="Sağlık Yardımı">Sağlık Yardımı</option>
+                            <option value="Barınma Yardımı">Barınma Yardımı</option>
+                            <option value="Diğer">Diğer</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="description">Açıklama</label>
                         <input type="text" class="form-control" id="description" placeholder="Açıklama">
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="addMarker()">Pin Ekle</button>
-                    <button type="button" class="btn btn-danger" onclick="removeLastMarker()">Son Pini Sil</button>
-                    <button type="button" class="btn btn-warning" onclick="clearAllMarkers()">Tüm Pinleri Sil</button>
+                    <button type="button" class="btn btn-primary" onclick="addMarker()">Yardım İste</button>
                 </form>
+                <h4>Yardım Talepleri</h4>
+                <ul id="helpRequests" class="list-group"></ul>
             </div>
         </div>
     </div>
@@ -78,6 +99,7 @@
 
         // Pinleri saklamak için dizi
         var markers = [];
+        var maxPins = 3;
 
         // Nominatim API ile adres otomatik tamamlama
         function initAutocomplete() {
@@ -113,32 +135,63 @@
         }
 
         function addMarker() {
+            if (markers.length >= maxPins) {
+                alert("Maksimum 3 pin ekleyebilirsiniz.");
+                return;
+            }
             var address = document.getElementById('address').value;
+            var helpType = document.getElementById('helpType').value;
+            var description = document.getElementById('description').value;
             fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}&addressdetails=1&limit=1`)
                 .then(response => response.json())
                 .then(data => {
                     if (data.length > 0) {
                         var lat = data[0].lat;
                         var lon = data[0].lon;
-                        var description = document.getElementById('description').value;
-                        addMarkerAtLocation(lat, lon, description);
+                        var fullDescription = `${helpType}: ${description}`;
+                        addMarkerAtLocation(lat, lon, fullDescription, address);
                     } else {
                         alert('Geocode was not successful for the following reason: No results found');
                     }
                 });
         }
 
-        function addMarkerAtLocation(lat, lon, description) {
+        function addMarkerAtLocation(lat, lon, description, address) {
             var marker = L.marker([lat, lon]).addTo(map)
                 .bindPopup(description + '<br><button onclick="removeMarker(this)">Sil</button>');
-            markers.push(marker);
+            markers.push({ marker, lat, lon });
             map.setView([lat, lon], 13);
+            addHelpRequest(address, description, lat, lon);
+        }
+
+        function addHelpRequest(address, description, lat, lon) {
+            var helpRequests = document.getElementById('helpRequests');
+            var listItem = document.createElement('li');
+            listItem.classList.add('list-group-item');
+            listItem.innerHTML = `
+                <span>${address} - ${description}</span>
+                <button class="btn btn-danger btn-sm" onclick="removeHelpRequest(this, ${lat}, ${lon})">Sil</button>
+            `;
+            listItem.addEventListener('click', function (e) {
+                if (!e.target.classList.contains('btn-danger')) {
+                    map.setView([lat, lon], 13);
+                }
+            });
+            helpRequests.appendChild(listItem);
+        }
+
+        function removeHelpRequest(button, lat, lon) {
+            var listItem = button.parentElement;
+            var index = Array.from(listItem.parentElement.children).indexOf(listItem);
+            map.removeLayer(markers[index].marker);
+            markers.splice(index, 1);
+            listItem.remove();
         }
 
         function removeMarker(button) {
-            var marker = markers.find(m => m.getPopup().getContent().includes(button.outerHTML));
+            var marker = markers.find(m => m.marker.getPopup().getContent().includes(button.outerHTML));
             if (marker) {
-                map.removeLayer(marker);
+                map.removeLayer(marker.marker);
                 markers = markers.filter(m => m !== marker);
             }
         }
@@ -146,7 +199,9 @@
         function removeLastMarker() {
             if (markers.length > 0) {
                 var lastMarker = markers.pop();
-                map.removeLayer(lastMarker);
+                map.removeLayer(lastMarker.marker);
+                var helpRequests = document.getElementById('helpRequests');
+                helpRequests.removeChild(helpRequests.lastChild);
             } else {
                 alert("Silinecek pin yok.");
             }
@@ -154,9 +209,10 @@
 
         function clearAllMarkers() {
             markers.forEach(function (marker) {
-                map.removeLayer(marker);
+                map.removeLayer(marker.marker);
             });
             markers = [];
+            document.getElementById('helpRequests').innerHTML = '';
         }
 
         document.addEventListener("DOMContentLoaded", function () {
