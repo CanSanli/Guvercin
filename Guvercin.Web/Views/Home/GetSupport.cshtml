@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "GetSupport";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
@@ -20,6 +19,24 @@
         .form-container {
             padding: 20px;
         }
+
+        .autocomplete-suggestions {
+            border: 1px solid #d4d4d4;
+            background-color: #fff;
+            max-height: 200px;
+            overflow-y: auto;
+            position: absolute;
+            z-index: 1000;
+        }
+
+        .autocomplete-suggestion {
+            padding: 10px;
+            cursor: pointer;
+        }
+
+            .autocomplete-suggestion:hover {
+                background-color: #e9e9e9;
+            }
     </style>
 </head>
 <body class="bg-light">
@@ -33,12 +50,9 @@
                 <h3>Konum Bilgileri</h3>
                 <form id="locationForm">
                     <div class="form-group">
-                        <label for="latitude">Enlem</label>
-                        <input type="text" class="form-control" id="latitude" placeholder="Enlem">
-                    </div>
-                    <div class="form-group">
-                        <label for="longitude">Boylam</label>
-                        <input type="text" class="form-control" id="longitude" placeholder="Boylam">
+                        <label for="address">Adres</label>
+                        <input type="text" class="form-control" id="address" placeholder="Adres">
+                        <div id="autocomplete-results" class="autocomplete-suggestions"></div>
                     </div>
                     <div class="form-group">
                         <label for="description">Açıklama</label>
@@ -55,7 +69,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-
     <script>
         // Leaflet Harita Ayarları
         var map = L.map('map').setView([39.9334, 32.8597], 6); // Türkiye merkezli başlangıç noktası
@@ -66,23 +79,62 @@
         // Pinleri saklamak için dizi
         var markers = [];
 
-        // Pin Ekleme Fonksiyonu
-        function addMarker() {
-            var lat = document.getElementById('latitude').value;
-            var lon = document.getElementById('longitude').value;
-            var description = document.getElementById('description').value;
-
-            if (lat && lon) {
-                var marker = L.marker([lat, lon]).addTo(map)
-                    .bindPopup(description + '<br><button onclick="removeMarker(this)">Sil</button>');
-                markers.push(marker);
-                map.setView([lat, lon], 13);
-            } else {
-                alert("Lütfen geçerli bir enlem ve boylam giriniz.");
-            }
+        // Nominatim API ile adres otomatik tamamlama
+        function initAutocomplete() {
+            var input = document.getElementById('address');
+            input.addEventListener('input', function () {
+                var query = input.value;
+                if (query.length < 3) {
+                    document.getElementById('autocomplete-results').innerHTML = '';
+                    return;
+                }
+                fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}&addressdetails=1&limit=5`)
+                    .then(response => response.json())
+                    .then(data => {
+                        var resultsContainer = document.getElementById('autocomplete-results');
+                        resultsContainer.innerHTML = '';
+                        data.forEach(item => {
+                            var suggestion = document.createElement('div');
+                            suggestion.classList.add('autocomplete-suggestion');
+                            suggestion.textContent = item.display_name;
+                            suggestion.addEventListener('click', function () {
+                                input.value = item.display_name;
+                                document.getElementById('autocomplete-results').innerHTML = '';
+                                moveToLocation(item.lat, item.lon);
+                            });
+                            resultsContainer.appendChild(suggestion);
+                        });
+                    });
+            });
         }
 
-        // Marker silme fonksiyonu
+        function moveToLocation(lat, lon) {
+            map.setView([lat, lon], 13);
+        }
+
+        function addMarker() {
+            var address = document.getElementById('address').value;
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}&addressdetails=1&limit=1`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        var lat = data[0].lat;
+                        var lon = data[0].lon;
+                        var description = document.getElementById('description').value;
+                        addMarkerAtLocation(lat, lon, description);
+                    } else {
+                        alert('Geocode was not successful for the following reason: No results found');
+                    }
+                });
+        }
+
+        function addMarkerAtLocation(lat, lon, description) {
+            var marker = L.marker([lat, lon]).addTo(map)
+                .bindPopup(description + '<br><button onclick="removeMarker(this)">Sil</button>');
+            markers.push(marker);
+            map.setView([lat, lon], 13);
+        }
+
         function removeMarker(button) {
             var marker = markers.find(m => m.getPopup().getContent().includes(button.outerHTML));
             if (marker) {
@@ -91,7 +143,6 @@
             }
         }
 
-        // Son Eklenen Pini Silme Fonksiyonu
         function removeLastMarker() {
             if (markers.length > 0) {
                 var lastMarker = markers.pop();
@@ -101,15 +152,17 @@
             }
         }
 
-        // Tüm Pinleri Silme Fonksiyonu
         function clearAllMarkers() {
             markers.forEach(function (marker) {
                 map.removeLayer(marker);
             });
             markers = [];
         }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            initAutocomplete();
+        });
     </script>
 
 </body>
 </html>
-
