@@ -32,7 +32,11 @@ namespace GuvercinApp.Controllers
             return View();
         }
 
-        public ActionResult GetSupport()
+        public ActionResult GetHelp()
+        {
+            return View();
+        }
+        public ActionResult ProvideHelp()
         {
             return View();
         }
