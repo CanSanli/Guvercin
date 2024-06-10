@@ -4,32 +4,80 @@
 <head>
     <style>
         .custom-font {
-            font-family:'Leelawadee UI', 'Arial Narrow', Arial, sans-serif, sans-serif;
+            font-family: 'Leelawadee UI', 'Arial Narrow', Arial, sans-serif, sans-serif;
         }
+
         .shadow-bottom {
             box-shadow: 0 6px 8px -1px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.06);
         }
+
         html, body {
             height: 100%;
         }
+
         body {
             display: flex;
             flex-direction: column;
         }
-       
+
         body {
             display: flex;
             flex-direction: column;
         }
-       
+
+
+
+
+
 
         footer {
-           
             bottom: 0;
-            background-color: #f8f9fa;
             padding: 10px 0;
             text-align: center;
             flex-shrink: 0;
+            /*background-color: #343a40;*/
+            /*color: white;*/
+            font-size: 0.7rem; /* Yazı boyutunu küçültüyoruz */
+        }
+
+            footer h5 {
+                margin-bottom: 0.5rem;
+                font-size: 0.8rem; /* Başlık yazı boyutunu küçültüyoruz */
+            }
+
+            footer ul {
+                list-style-type: none;
+                padding-left: 0;
+            }
+
+                footer ul li {
+                    margin-bottom: 0.5rem;
+                }
+
+                    footer ul li i {
+                        margin-right: 0.5rem;
+                    }
+
+            footer a {
+                color: white;
+                text-decoration: none;
+            }
+
+                footer a:hover {
+                    text-decoration: underline;
+                }
+
+            footer p {
+                margin: 0;
+                font-size: 0.7rem; /* Alt metin yazı boyutunu küçültüyoruz */
+                text-align: right; /* Yazıyı sağa hizalıyoruz */
+            }
+
+      
+        .container-fluid {
+            padding-left: 15px; /* Varsayılan padding */
+            padding-right: 15px; /* Varsayılan padding */
+            padding-bottom: -10px;
         }
     </style>
     <script>
@@ -88,10 +136,10 @@
 </head>
 
 <body class="d-flex h-100 text-bg-dark">
-    
+
     <div class=" h-100 d-flex  mx-auto flex-column  w-100">
 
-        <header >
+        <header>
             <div class="px-3 py-2 shadow-bottom">
                 <a aria-current="page" class="navbar-brand fw-bolder fs-2 custom-font" href="/Home/Index">MELEK YATIRIM</a>
                 <nav class="nav nav-masthead justify-content-center float-md-end mx-xl-5">
@@ -111,9 +159,58 @@
         </div>
 
         <div class="mw-100">
-            <footer class="d-flex align-items-center justify-content-center container-fluid bg-black text-white py-3">
-                <h1 class="text-center">BURAYI FOOTER YAPAK İŞTE</h1>
+            <footer class="bg-dark text-white pt-2">
+                <div class="container-fluid">
+                    <div class="row">
+                        <!-- İletişim Bilgileri -->
+                        <div class="col-md-4">
+                            <h5>İletişim</h5>
+                            <ul class="list-unstyled">
+                                <li><i class="fas fa-phone-alt"></i> Telefon: +90 123 456 78 90</li>
+                                <li><i class="fas fa-envelope"></i> E-posta: info@agisstudio.com</li>
+                                <li><i class="fas fa-map-marker-alt"></i> Adres: Yurtkur Cad. No: 123, Kırıkkale, Türkiye</li>
+                            </ul>
+
+                            <div class="social-links">
+                                <a href="#">Facebook</a>
+                                <a href="#">Twitter</a>
+                                <a href="#">Instagram</a>
+                                <a href="#">LinkedIn</a>
+                            </div>
+
+
+                        </div>
+                        <!-- Site Haritası -->
+                        <div class="col-md-4">
+                            <h5>Site Haritası</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="/Home/Index" class="text-white">Ana Sayfa</a></li>
+                                <li><a href="/Home/About" class="text-white">Hakkımızda</a></li>
+                                <li><a href="#" class="text-white">Hizmetler</a></li>
+                                <li><a href="#" class="text-white">Blog</a></li>
+                                <li><a href="#" class="text-white">İletişim</a></li>
+                            </ul>
+                        </div>
+                        <!-- Yasal Bilgiler -->
+                        <div class="col-md-4">
+                            <h5>Yasal Bilgiler</h5>
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="text-white">Gizlilik Politikası</a></li>
+                                <li><a href="#" class="text-white">Kullanım Şartları</a></li>
+                                <li><a href="#" class="text-white">Çerez Politikası</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row p-">
+                        <div class="col text-right ">
+                            <!-- class text-right ile sağa hizalama -->
+                            <p>&copy; 2024 Tüm Hakları Saklıdır. AGIS Studio.</p>
+                        </div>
+
+                    </div>
+                </div>
             </footer>
+
         </div>
     </div>
 

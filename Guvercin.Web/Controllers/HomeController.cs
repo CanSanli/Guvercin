@@ -11,7 +11,7 @@ namespace GuvercinApp.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        //[Authorize] //Login check
         public ActionResult About()
         {
             ViewBag.Message = "Your app description page.";
