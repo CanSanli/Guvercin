@@ -2,232 +2,239 @@
     ViewBag.Title = "Home Page";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hakkımızda - Melek Yatırım</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+           
+        }
 
-<div class="jumbotron">
-    <h1>ASP.NET Identity</h1>
-    <p class="lead">ASP.NET Identity is the membership system for ASP.NET apps. Following are the features of ASP.NET Identity in this sample application.</p>
-    <p><a href="http://www.asp.net/identity" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
-</div>
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1500x600') no-repeat center center/cover;
+            height: 600px;
+            position: relative;
+            color: white;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
-<div class="row">
-    <div class="col-md-4">
-        <dl>
-            <dt>Initialize ASP.NET Identity</dt>
-            <dd>
-                You can initialize ASP.NET Identity when the application starts. Since ASP.NET Identity is Entity Framework based in this sample,
-                you can create DatabaseInitializer which is configured to get called each time the app starts.
-                <strong>Please look in App_Start\IdentityConfig.cs</strong>
-                This code shows the following
-                <ul>
-                    <li>When should the Initializer run and when should the database be created</li>
-                    <li>Create Admin user</li>
-                    <li>Create Admin role</li>
-                    <li>Add Admin user to Admin role</li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Add profile data for the user</dt>
-            <dd>
-                <a href="http://blogs.msdn.com/b/webdev/archive/2013/10/16/customizing-profile-information-in-asp-net-identity-in-vs-2013-templates.aspx">Please follow this tutorial.</a>
+        .hero-content h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            animation: fadeInDown 1s ease-out;
+        }
 
-                <ul>
-                    <li>Add profile information in the Users Table</li>
-                    <li>Look in Models\IdentityModels.cs for examples</li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Validation</dt>
-            <dd>
-                When you create a User using a username or password, the Identity system performs validation on the username and password, and the passwords are hashed before they are
-                stored in the database. You can customize the validation by changing some of the properties of the validators such as Turn alphanumeric on/off, set minimum password length
-                or you can write your own custom validators and register them with the UserManager.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Register a user and login</dt>
-            <dd>
-                Click @Html.ActionLink("Register", "Register", "Account") and see the code in AccountController.cs and Register Action.
-                Click @Html.ActionLink("Log in", "Login", "Account") and see the code in AccountController.cs and Login Action.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Social Logins</dt>
-            <dd>
-                You can the support so that users can login using their Facebook, Google, Twitter, Microsoft Account and more.
-            </dd>
-            <dd>
-                <ul>
-                    <li>
-                        <a href="http://www.windowsazure.com/en-us/documentation/articles/web-sites-dotnet-deploy-aspnet-mvc-app-membership-oauth-sql-database/">Add Social Logins</a>
-                    </li>
-                    <li>
-                        <a href="http://blogs.msdn.com/b/webdev/archive/2013/10/16/get-more-information-from-social-providers-used-in-the-vs-2013-project-templates.aspx">Get more data about the user when they login suing Facebook</a>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Basic User Management</dt>
-            <dd>
-                Do Create, Update, List and Delete Users.
-                Assign a Role to a User.
-                Only Users In Role Admin can access this page. This uses the [Authorize(Roles = "Admin")] on the UserAdmin controller.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Basic Role Management</dt>
-            <dd>
-                Do Create, Update, List and Delete Roles.
-                Only Users In Role Admin can access this page. This authorization is doen by using the [Authorize(Roles = "Admin")] on the RolesAdmin controller.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Account Confirmation</dt>
-            <dd>
-                When you register a new account, you will be sent an email confirmation.
-                You can use an email service such as <a href="http://www.windowsazure.com/en-us/documentation/articles/sendgrid-dotnet-how-to-send-email/">SendGrid</a> which integrate nicely with Windows Azure and requires no configuration or
-                set up an SMTP server to send email.
-                You can send email using the EmailService which is registered in App_Start\IdentityConfig.cs
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Two-Factor Authentication</dt>
-            <dd>
-                This sample shows how you can use Two-Factor authentication. This sample has a SMS and email service registered where you can send SMS or email for sending the security code.
-                You can add more two-factor authentication factors such as QR codes and plug them into ASP.NET Identity.
-                <ul>
-                    <li>
-                        You can use a SMS using <a href="https://www.twilio.com/">Twilio</a> or use any means of sending SMS. Please <a href="https://www.twilio.com/docs/quickstart/csharp/sms/sending-via-rest">read</a> for more details on using Twilio.
-                        You can send SMS using the SmsService which is registered in App_Start\IdentityConfig.cs
-                    </li>
-                    <li>
-                        You can use an email service such as <a href="http://www.windowsazure.com/en-us/documentation/articles/sendgrid-dotnet-how-to-send-email/">SendGrid</a> or
-                        set up an SMTP server to send email.
-                        You can send email using the EmailService which is registered in App_Start\IdentityConfig.cs
-                    </li>
+        .hero-content p {
+            font-size: 1.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out;
+        }
 
-                    <li>
-                        When you login, you can add a phone number by clicking the Manage page.
-                    </li>
-                    <li>
-                        Once you add a phone number and have the Phone service hooked to send a SMS, you will get a code through SMS to confirm your phone number.
-                    </li>
-                    <li>
-                        In the Manage page, you can turn on Two-Factor authentication.
-                    </li>
-                    <li>
-                        When you logout and login, after you enter the username and password, you will get an option of how to get the security code to use for two-factor authentication.
-                    </li>
-                    <li>
-                        You can copy the code from your SMS or email and enter in the form to login.
-                    </li>
-                    <li>
-                        The sample also shows how to protect against Brute force attacks against two-factor codes. When you enter a code incorrectly for 5 times then you will be
-                        lockedout for 5 min before you can enter a new code. These settings can be configured in App_Start\IdentityConfig.cs by setting  DefaultAccountLockoutTimeSpan and MaxFailedAccessAttemptsBeforeLockout on the UserManager.
-                    </li>
-                    <li>
-                        If the machine you are browsing this website is your own machine, you can choose to check the "Remember Me" option after you enter the code.
-                        This option will remember you forever on this machine and will not ask you for the two-factor authentication, the next time when you login to the website.
-                        You can change your "Remember Me" settings for two-factor authentication in the Manage page.
-                    </li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Account Lockout</dt>
-            <dd>
-                Provide a way to Lockout out the user if the user enters their password or two-factor codes incorrectly.
-                The number of invalid attempts and the timespan for the users are locked out can be configured.
-                A developer can optionally turn off Account Lockout for certain user accounts should they need to.
-            </dd>
-            <ul>
-                <li>Account LockOut settings can be configured in the UserManager in IdentityConfig.cs</li>
-            </ul>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Security Token provider</dt>
-            <dd>
-                Support a way to regenerate the Security Token for the user in cases when the User changes there password or any other security related information such as removing an associated login(such as Facebook, Google, Microsoft Account etc).
-                This is needed to ensure that any tokens generated with the old password are invalidated. In the sample project, if you change the users password then a new token is generated for the user and any previous tokens are invalidated.
-                This feature provides an extra layer of security to your application since when you change your password, you will be logged out from everywhere (all other browsers) where you have logged into this application.
-            </dd>
-            <dd>
-                <ul>
-                    <li>The provider is registered when you add CookieAuthentication in StartupAuth to your application.</li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Password Reset</dt>
-            <dd>
-                Allows the user to reset their passwords if they have forgotten their password. In this sample users need to confirm their email before they can reset their passwords.
-            </dd>
-        </dl>
-    </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Custom Storage providers</dt>
-            <dd>
-                You can extend ASP.NET Identity to write your own custom storage provider for storing the ASP.NET Identity system and user data
-                in a persistance system of your choice such as MondoDb, RavenDb, Azure Table Storage etc.
-            </dd>
-            <dd>
-                <ul>
-                    <li>
-                        <a href="http://www.asp.net/identity/overview/extensibility/overview-of-custom-storage-providers-for-aspnet-identity">
-                            learn more on how to implement your own storage provider
+        .content-section {
+            padding: 60px 20px;
+            text-align: center;
+           
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .content-section p {
+            font-size: 1rem;
+            color: #6c757d;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+        .feature-box {
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+            
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .feature-box i {
+            color: #007bff;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .feature-box h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .feature-box p {
+            font-size: 1rem;
+            color: #6c757d;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        .team-section {
+           
+            padding: 60px 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .team-section h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .team-section .member {
+            padding: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .team-section .member img {
+            border-radius: 50%;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .team-section .member h4 {
+            margin-bottom: 10px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .team-section .member p {
+            font-size: 1rem;
+            color: #6c757d;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+        @@keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @@keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <div class="container content-section row w-100 feature-box">
+            <h2>Biz Kimiz?</h2>
+            <p>Melek Yatırım, yardıma muhtaç bireylerin ve yardımseverlerin kişisel bilgiler paylaşılmadan ve gizlilikle bir araya getirilmesini sağlayan bir platformdur. Teknofest bünyesinde Sosyal inovasyon kategorisinde Agis Studio tarafından geliştirilmiştir.</p>
+            <p>Amacımız, yardıma muhtaç bireylerin ihtiyaçlarını karşılamak ve toplumsal dayanışmayı güçlendirmek için güvenli, anonim ve etkili bir platform sunmaktır.</p>
+        </div>
+        <div class="container content-section row w-100 feature-box">
+            <h2>Özelliklerimiz</h2>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="feature-box h-100">
+                        <i class="fas fa-users fa-4x"></i>
+                        <h3>Kullanıcı Odaklı Tasarım</h3>
+                        <p>Melek Yatırım, kullanıcılar için kullanımı kolay ve etkileşimli bir deneyim sunar.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box h-100">
+                        <i class="fas fa-hand-holding-heart fa-4x"></i>
+                        <h3>Dayanışma Kültürü</h3>
+                        <p>Biz, toplumsal dayanışmayı güçlendirmeyi ve yardımlaşma kültürünü yaymayı hedefliyoruz.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-box h-100">
+                        <i class="fas fa-shield-alt fa-4x"></i>
+                        <h3>Güvenlik</h3>
+                        <p>Kullanıcılarımızın verileri güvenliğimiz için en üst düzeyde korunmaktadır.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="team-section row w-100 feature-box">
+            <h2>Ekibimiz</h2>
+            <div class="row">
+                <div class="feature-box">
+                    <img src="https://cdn.discordapp.com/attachments/711378822590627871/1249805945106862150/AGISs.jpg?ex=6668a3fd&is=6667527d&hm=80d1cf6175a8aaf79ef35fcab66b8c28f82000985fdec28e4a832fb57384b33d&" alt="Team Member" class="img-fluid">
+                </div>
+                <div class="col-md-4">
+                    <div class="member feature-box">
+                        <img src="https://media.licdn.com/dms/image/D4D03AQElT3KgTNAe5w/profile-displayphoto-shrink_800_800/0/1718043537288?e=1723680000&v=beta&t=Uofczr5CIcEnGTcFUqjpFi_gj0tqjJupU4ECmBiBHPg" alt="Team Member" class="img-fluid feature-box">
+                        <h4>Can Şanlı</h4>
+                        <p>Kurucu & CEO</p>
+                        <a href="https://www.linkedin.com/in/CanSanli" target="_blank" rel="noopener noreferrer">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/240px-LinkedIn_logo_initials.png" alt="LinkedIn" width="32" height="32">
                         </a>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="member feature-box">
+                        <img src="https://media.licdn.com/dms/image/D4D03AQFF4fLRLh_oxA/profile-displayphoto-shrink_400_400/0/1703613303915?e=1723680000&v=beta&t=dL4VRXC0CFpYOz0jqy9vtSlrmWTksu0aKgcI8VbJWAU" alt="Team Member" class="img-fluid feature-box">
+                        <h4>Bilgehan Acar</h4>
+                        <p>Proje Yöneticisi</p>
+                        <a href="https://www.linkedin.com/in/bilgehan-acar/" target="_blank" rel="noopener noreferrer">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/240px-LinkedIn_logo_initials.png" alt="LinkedIn" width="32" height="32">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-4 ">
+                    <div class="member feature-box">
+                        <img src="https://media.licdn.com/dms/image/D5603AQEuPLZh59wZkQ/profile-displayphoto-shrink_400_400/0/1712776465643?e=1723680000&v=beta&t=M9iBm8twlBkcDmAwYZn-Uftq5_GdNfcvF5P9gIo_S4I" alt="Team Member" class="img-fluid feature-box">
+                        <h4>Taha Bakuer</h4>
+                        <p>Çaycı</p>
+                        <a href="https://www.linkedin.com/in/taha-bakuer/" target="_blank" rel="noopener noreferrer">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/LinkedIn_logo_initials.png/240px-LinkedIn_logo_initials.png" alt="LinkedIn" width="32" height="32">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-4">
-        <dl>
-            <dt>Documentation</dt>
-            <dd>
-                <ul>
-                    <li>
-                        Tutorials: <a href="www.asp.net/identity">www.asp.net/identity</a>
-                    </li>
-                    <li>
-                        StackOverflow: <a href="http://stackoverflow.com/questions/tagged/asp.net-identity">http://stackoverflow.com/questions/tagged/asp.net-identity</a>
-                    </li>
-                    <li>
-                        Twitter: #identity #aspnet
-                    </li>
-                    <li>
-                        <a href="http://curah.microsoft.com/55636/aspnet-identity">ASP.NET Identity on curah</a>
-                    </li>
-                    <li>
-                        Have bugs or suggestions for ASP.NET Identity <a href="http://aspnetidentity.codeplex.com/">http://aspnetidentity.codeplex.com/</a>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
-    </div>
-</div>
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</body>
+</html>
