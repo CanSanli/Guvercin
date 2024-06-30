@@ -1,52 +1,75 @@
-﻿using Guvercin.BusinessLayer.Abstract;
-using GuvercinApp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System;
 using System.Web.Mvc;
+using Guvercin.BusinessLayer.Abstract;
+using Guvercin.DataAccessLayer;
+using GuvercinApp.Models;
 
-namespace Guvercin.Web.Controllers
+public class RegisterController : Controller
 {
-    public class RegisterController : Controller
+    private readonly Repository<Kullanici> _kullaniciRepository = new Repository<Kullanici>();
+    private readonly Repository<BireyselKullanici> _bireyselKullaniciRepository = new Repository<BireyselKullanici>();
+    private readonly Repository<KurumsalKullanici> _kurumsalKullaniciRepository = new Repository<KurumsalKullanici>();
+
+    public ActionResult Index()
     {
-        // GET: Register
-        public ActionResult Index()
-        {
-            return View();
-        }
+        var model = new RegViewModel();
+        return View(model);
+    }
 
-        public ActionResult IndividualMemberSave(RegViewModel model)
+    [HttpPost]
+    public ActionResult Save(RegViewModel model)
+    {
+        if (ModelState.IsValid)
         {
-            if (model.IndividualMember.HouseholdSize != 0)
+            var kullanici = new Kullanici
             {
+                KullaniciTipi = model.RegistrationType,
+                KullaniciAdi = model.Kullanici.KullaniciAdi,
+                Email = model.Kullanici.Email,
+                Sifre = model.Kullanici.Sifre,
+                Telefon = model.Kullanici.Telefon,
+                Adres = model.Kullanici.Adres
+            };
 
+            _kullaniciRepository.Insert(kullanici);
+
+            if (model.RegistrationType == "bireysel")
+            {
+                var bireyselKullanici = new BireyselKullanici
+                {
+                    KullaniciId = kullanici.KullaniciId,
+                    Ad = model.BireyselKullanici.Ad,
+                    Soyad = model.BireyselKullanici.Soyad,
+                    DogumTarihi = model.BireyselKullanici.DogumTarihi
+                };
+
+                _bireyselKullaniciRepository.Insert(bireyselKullanici);
             }
-            Repository<IndividualMember> rpIndividualMember = new Repository<IndividualMember>();
-            rpIndividualMember.Insert(model.IndividualMember);
-            return RedirectToAction("Index");
+            else if (model.RegistrationType == "kurumsal")
+            {
+                var kurumsalKullanici = new KurumsalKullanici
+                {
+                    KullaniciId = kullanici.KullaniciId,
+                    KurumAdi = model.KurumsalKullanici.KurumAdi,
+                    VergiNo = model.KurumsalKullanici.VergiNo,
+                    KurulusTarihi = model.KurumsalKullanici.KurulusTarihi
+                };
+
+                _kurumsalKullaniciRepository.Insert(kurumsalKullanici);
+            }
+
+            return RedirectToAction("Success");
         }
 
+        // ModelState.IsValid false olduğunda buraya düşer, hataları göstermek için tekrar Index view'ını döndürüyoruz.
+        return View("Index", model);
+    }
 
 
-        //public ActionResult IndividualMemberSave(RegisterViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        using (var context = new DataContext())
-        //        {
-        //            context.IndividualMembers.Add(model.IndividualMember);
-        //            context.SaveChanges();
-
-        //            foreach (var member in model.HouseholdMembers)
-        //            {
-        //                member.IndividualMemberId = model.IndividualMember.IndividualMemberId;
-        //                context.HouseholdMembers.Add(member);
-        //            }
-        //            context.SaveChanges();
-        //        }
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+    public ActionResult Success()
+    {
+        return View();
     }
 }
+
+

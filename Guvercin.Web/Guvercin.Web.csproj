@@ -262,9 +262,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202406081509314_InitialCreate.cs" />
-    <Compile Include="Migrations\202406081509314_InitialCreate.Designer.cs">
-      <DependentUpon>202406081509314_InitialCreate.cs</DependentUpon>
+    <Compile Include="Migrations\202406302055099_AddYardimModels.cs" />
+    <Compile Include="Migrations\202406302055099_AddYardimModels.Designer.cs">
+      <DependentUpon>202406302055099_AddYardimModels.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -307,8 +307,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202406081509314_InitialCreate.resx">
-      <DependentUpon>202406081509314_InitialCreate.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202406302055099_AddYardimModels.resx">
+      <DependentUpon>202406302055099_AddYardimModels.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

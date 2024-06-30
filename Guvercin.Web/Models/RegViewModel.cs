@@ -7,7 +7,10 @@ namespace GuvercinApp.Models
 {
     public class RegViewModel
     {
-        public IndividualMember IndividualMember { get; set; }
-        public List<HouseholdMember> HouseholdMembers { get; set; }
+        public string RegistrationType { get; set; }
+        public Kullanici Kullanici { get; set; }
+        public BireyselKullanici BireyselKullanici { get; set; }
+        public KurumsalKullanici KurumsalKullanici { get; set; }
     }
+
 }

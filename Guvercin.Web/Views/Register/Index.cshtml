@@ -5,161 +5,93 @@
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
 
-@using (Html.BeginForm("IndividualMemberSave", "Register", FormMethod.Post))
-{
-<form class="my-3">
-
-
-    <div id="bireysel">
-        <div class="row my-2">
-            <div class="col">
-                <label for="firstname" class="form-label">Ad</label>
-                <input type="text" class="form-control" id="firstname" name="IndividualMember.FirstName" placeholder="First name">
-            </div>
-            <div class="col">
-                <label for="lastname" class="form-label">Soyad</label>
-                <input type="text" class="form-control" id="lastname" name="IndividualMember.LastName" placeholder="Last name">
-            </div>
-        </div>
-        <div class="mb-3">
-            <label for="birthdate" class="form-label">Doğum tarihi</label>
-            <input type="date" class="form-control" id="birthdate" name="IndividualMember.Birthdate">
-        </div>
-        <div class="mb-3">
-            <label for="tcno" class="form-label">Tc Kimlik No</label>
-            <input type="number" class="form-control" id="tcno" name="IndividualMember.TCKimlikNumarasi">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="mb-2">Password</label>
-            <input type="password" class="form-control mb-2" id="exampleInputPassword1" name="IndividualMember.Password" placeholder="Password">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword2" class="mb-2">Password Again</label>
-            <input type="password" class="form-control mb-2" id="exampleInputPassword2" name="IndividualMember.ConfirmPassword" placeholder="Password Again">
-        </div>
-        <div class="mb-3">
-            <label for="cinsiyet" class="form-label">Cinsiyet</label>
-            <select class="form-select" id="cinsiyet" name="IndividualMember.Gender">
-                <option selected>Seçiniz</option>
-                <option value="Erkek">Erkek</option>
-                <option value="Kadın">Kadın</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="medeniDurum" class="form-label">Medeni Durum</label>
-            <select class="form-select" id="medeniDurum" name="IndividualMember.MaritalStatus">
-                <option selected>Seçiniz</option>
-                <option value="Bekar">Bekar</option>
-                <option value="Evli">Evli</option>
-                <option value="Dul">Dul</option>
-                <option value="Ayrılmış">Ayrılmış</option>
-            </select>
-        </div>
-        <div class="mb-3">
-            <label for="telefonNumarasi" class="form-label">Telefon Numarası</label>
-            <input type="tel" class="form-control" id="telefonNumarasi" name="IndividualMember.TelefonNumarasi">
-        </div>
-        <div class="mb-3">
-            <label for="epostaAdresi" class="form-label">Eposta Adresi</label>
-            <input type="email" class="form-control" id="epostaAdresi" name="IndividualMember.EpostaAdresi">
-            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-        </div>
-        <div class="mb-3">
-            <label for="evAdresi" class="form-label">Ev Adresi</label>
-            <textarea class="form-control" id="evAdresi" name="IndividualMember.EvAdresi" rows="3"></textarea>
-        </div>
-        <div class="mb-3">
-            <label for="householdSize" class="form-label">Household Size</label>
-            <input type="number" class="form-control" id="householdSize" name="IndividualMember.HouseholdSize" oninput="createMemberInputs()">
-            <small id="membersHelp" class="form-text text-muted">Kendin hariç</small>
-        </div>
-        <div id="membersContainer" ></div>
-        <div class="mb-3">
-            <label for="monthlyIncome" class="form-label">Monthly Income</label>
-            <input type="number" step="0.01" class="form-control" id="monthlyIncome" name="IndividualMember.MonthlyIncome">
-        </div>
-        <div class="form-check my-3">
-            <input type="checkbox" class="form-check-input mb-2" id="exampleCheck1" name="IndividualMember.AgreementCheck">
-            <label class="form-check-label mb-2" for="exampleCheck1">Check me out</label>
-        </div>
-
-        <button type="submit" class="btn btn-primary">Submit</button>
+<form class="my-3" id="registrationForm" method="post" action="@Url.Action("Save", "Register")">
+    <div>
+        <label for="registrationType" class="form-label">Kayıt Türü</label>
+        <select class="form-select" id="registrationType" name="RegistrationType" onchange="toggleFormFields()">
+            <option value="bireysel">Bireysel</option>
+            <option value="kurumsal">Kurumsal</option>
+        </select>
     </div>
 
+    <!-- Genel Kullanıcı Bilgileri -->
+    <div class="mb-3">
+        <label for="kullaniciAdi" class="form-label">Kullanıcı Adı</label>
+        <input type="text" class="form-control" id="kullaniciAdi" name="Kullanici.KullaniciAdi" required>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" id="email" name="Kullanici.Email" required>
+    </div>
+    <div class="mb-3">
+        <label for="sifre" class="form-label">Şifre</label>
+        <input type="password" class="form-control" id="sifre" name="Kullanici.Sifre" required>
+    </div>
+    <div class="mb-3">
+        <label for="telefon" class="form-label">Telefon</label>
+        <input type="tel" class="form-control" id="telefon" name="Kullanici.Telefon" required>
+    </div>
+    <div class="mb-3">
+        <label for="adres" class="form-label">Adres</label>
+        <input type="text" class="form-control" id="adres" name="Kullanici.Adres" required>
+    </div>
+
+    <div id="bireyselFields" style="display:none;">
+        <!-- Bireysel kayıt alanları -->
+        <div class="row my-2">
+            <div class="col">
+                <label for="ad" class="form-label">Ad</label>
+                <input type="text" class="form-control" id="ad" name="BireyselKullanici.Ad" placeholder="Ad">
+            </div>
+            <div class="col">
+                <label for="soyad" class="form-label">Soyad</label>
+                <input type="text" class="form-control" id="soyad" name="BireyselKullanici.Soyad" placeholder="Soyad">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="dogumTarihi" class="form-label">Doğum Tarihi</label>
+            <input type="date" class="form-control" id="dogumTarihi" name="BireyselKullanici.DogumTarihi">
+        </div>
+    </div>
+
+    <div id="kurumsalFields" style="display:none;">
+        <!-- Kurumsal kayıt alanları -->
+        <div class="mb-3">
+            <label for="kurumAdi" class="form-label">Kurum Adı</label>
+            <input type="text" class="form-control" id="kurumAdi" name="KurumsalKullanici.KurumAdi" placeholder="Kurum Adı">
+        </div>
+        <div class="mb-3">
+            <label for="vergiNo" class="form-label">Vergi No</label>
+            <input type="text" class="form-control" id="vergiNo" name="KurumsalKullanici.VergiNo" placeholder="Vergi No">
+        </div>
+        <div class="mb-3">
+            <label for="kurulusTarihi" class="form-label">Kuruluş Tarihi</label>
+            <input type="date" class="form-control" id="kurulusTarihi" name="KurumsalKullanici.KurulusTarihi">
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Gönder</button>
 </form>
-}
 
 <script>
-    function createMemberInputs() {
-        var numberOfMembers = document.getElementById("householdSize").value;
-        var container = document.getElementById("membersContainer");
-        container.innerHTML = "";  // Mevcut girişleri temizle
+    function toggleFormFields() {
+        var registrationType = document.getElementById("registrationType").value;
+        var bireyselFields = document.getElementById("bireyselFields");
+        var kurumsalFields = document.getElementById("kurumsalFields");
 
-        for (let i = 1; i <= numberOfMembers; i++) {
-            var inputGroup = document.createElement("div");
-            inputGroup.className = "mb-3";
-
-            var nameInput = createInputField(`HouseholdMembers[${i - 1}].MemberName`, "İsim", "İsim");
-            var idInput = createInputField(`HouseholdMembers[${i - 1}].MemberID`, "TC Kimlik Numarası", "TC Kimlik Numarası");
-            var birthdateInput = createInputField(`HouseholdMembers[${i - 1}].MemberBirthdate`, "Doğum Tarihi", "Doğum Tarihi", "date");
-            var educationSelect = createSelectField(`HouseholdMembers[${i - 1}].MemberEducation`, "Eğitim Durumu", ["Diğer", "Lise", "Önlisans", "Lisans", "Lisansüstü"]);
-            var healthSelect = createSelectField(`HouseholdMembers[${i - 1}].MemberHealth`, "Sağlık Durumu", ["Var", "Yok"]);
-
-
-            container.appendChild(createLabel(`Üye ${i} Bilgileri`));
-            container.appendChild(nameInput);
-            container.appendChild(idInput);
-            container.appendChild(birthdateInput);
-            container.appendChild(educationSelect);
-            container.appendChild(healthSelect);
+        if (registrationType === "bireysel") {
+            bireyselFields.style.display = "block";
+            kurumsalFields.style.display = "none";
+        } else if (registrationType === "kurumsal") {
+            bireyselFields.style.display = "none";
+            kurumsalFields.style.display = "block";
+        } else {
+            bireyselFields.style.display = "none";
+            kurumsalFields.style.display = "none";
         }
     }
 
-    function createInputField(name, placeholder, labelText, type = "text") {
-        var div = document.createElement("div");
-        div.className = "input-group mb-1";
-
-        var label = document.createElement("span");
-        label.className = "input-group-text";
-        label.textContent = labelText;
-
-        var input = document.createElement("input");
-        input.type = type;
-        input.className = "form-control";
-        input.name = name;
-        input.placeholder = placeholder;
-
-        div.appendChild(label);
-        div.appendChild(input);
-        return div;
-    }
-
-    function createSelectField(name, labelText, options) {
-        var div = document.createElement("div");
-        div.className = "input-group mb-1";
-
-        var label = document.createElement("span");
-        label.className = "input-group-text";
-        label.textContent = labelText;
-
-        var select = document.createElement("select");
-        select.className = "form-select";
-        select.name = name;
-        options.forEach(option => {
-            var opt = document.createElement("option");
-            opt.value = option;
-            opt.textContent = option;
-            select.appendChild(opt);
-        });
-
-        div.appendChild(label);
-        div.appendChild(select);
-        return div;
-    }
-
-    function createLabel(text) {
-        var label = document.createElement("h5");
-        label.textContent = text;
-        return label;
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        toggleFormFields();  // Sayfa yüklendiğinde form alanlarını kontrol et
+    });
 </script>
