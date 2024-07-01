@@ -1,31 +1,57 @@
 ﻿using Guvercin.BusinessLayer.Abstract;
 using GuvercinApp.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
-namespace Guvercin.Web.Controllers
-{
 
-    public class YardımTalebiController : Controller
+public class YardimTalebiController : Controller
+{
+    private readonly Repository<YardimTalebi> _yardimTalebiRepository = new Repository<YardimTalebi>();
+    private readonly Repository<YardimTuru> _yardimTuruRepository = new Repository<YardimTuru>();
+
+    [HttpGet]
+    public ActionResult YardimTalepEt()
     {
-        private readonly Repository<YardimTalebi> _yardimTalebiRepository = new Repository<YardimTalebi>();
-        public ActionResult YardımTalepEt()
+        if (Session["KullaniciId"] == null)
         {
-            return View();
+            return RedirectToAction("Login", "Acc");
         }
-        [HttpPost]
-        public ActionResult Save(TalepModel model)
+
+        var yardimTurleri = _yardimTuruRepository.List();
+        ViewBag.YardimTurleri = new SelectList(yardimTurleri, "YardimTuruId", "YardimTuruAdi");
+        return View();
+    }
+
+    [HttpPost]
+    public ActionResult Save(TalepModel model)
+    {
+        if (Session["KullaniciId"] == null)
+        {
+            return RedirectToAction("Login", "Acc");
+        }
+
+        if (ModelState.IsValid)
         {
             var talep = new YardimTalebi
             {
-                
+                KullaniciId = (int)Session["KullaniciId"],
+                YardimTuruId = model.YardimTalebi.YardimTuruId,
+                Adres = model.YardimTalebi.Adres,
+                Aciklama = model.YardimTalebi.Aciklama,
+                Enlem = model.Enlem,
+                Boylam = model.Boylam,
+                Tarih = DateTime.Now,
+                Durum = "Beklemede"
             };
-            _yardimTalebiRepository.Insert(talep);
 
-            return View();
+            _yardimTalebiRepository.Insert(talep);
+            return RedirectToAction("YardimTalepEt");
         }
+
+        var yardimTurleri = _yardimTuruRepository.List();
+        ViewBag.YardimTurleri = new SelectList(yardimTurleri, "YardimTuruId", "YardimTuruAdi");
+        return View("YardimTalepEt");
     }
 }
+

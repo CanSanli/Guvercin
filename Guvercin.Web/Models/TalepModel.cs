@@ -7,6 +7,9 @@ namespace GuvercinApp.Models
 {
     public class TalepModel
     {
-        public YardimTalebi yardimTalebi { get; set; }
+        public YardimTalebi YardimTalebi { get; set; }
+        public double Enlem { get; set; }
+        public double Boylam { get; set; }
+        public int YardimTuruId { get; set; }
     }
 }

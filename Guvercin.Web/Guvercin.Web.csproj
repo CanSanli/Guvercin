@@ -246,6 +246,7 @@
     <Content Include="Views\Home\ProvideHelp.cshtml" />
     <Content Include="Views\Acc\Login.cshtml" />
     <Content Include="Views\YardımTalebi\YardımTalepEt.cshtml" />
+    <Content Include="Views\YardimTalebi\YardimTalepEt.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -24,6 +24,12 @@ public class YardimTalebi
     public string Aciklama { get; set; }
 
     [Required]
+    public double Enlem { get; set; }
+
+    [Required]
+    public double Boylam { get; set; }
+
+    [Required]
     public DateTime Tarih { get; set; } = DateTime.Now;
 
     [Required]
@@ -34,3 +40,4 @@ public class YardimTalebi
     public virtual Kullanici Kullanici { get; set; }
     public virtual YardimTuru YardimTuru { get; set; }
 }
+
