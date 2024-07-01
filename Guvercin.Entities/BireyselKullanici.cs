@@ -16,7 +16,7 @@ public class BireyselKullanici
     public string Soyad { get; set; }
 
     [Required]
-    public DateTime DogumTarihi { get; set; }
+    public DateTime? DogumTarihi { get; set; }
 
     // Navigation property
     public virtual Kullanici Kullanici { get; set; }

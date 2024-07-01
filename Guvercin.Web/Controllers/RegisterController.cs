@@ -19,8 +19,7 @@ public class RegisterController : Controller
     [HttpPost]
     public ActionResult Save(RegViewModel model)
     {
-        if (ModelState.IsValid)
-        {
+
             var kullanici = new Kullanici
             {
                 KullaniciTipi = model.RegistrationType,
@@ -58,11 +57,10 @@ public class RegisterController : Controller
                 _kurumsalKullaniciRepository.Insert(kurumsalKullanici);
             }
 
-            return RedirectToAction("Success");
-        }
+            return RedirectToAction("Index","Home");
+        
 
         // ModelState.IsValid false olduğunda buraya düşer, hataları göstermek için tekrar Index view'ını döndürüyoruz.
-        return View("Index", model);
     }
 
 

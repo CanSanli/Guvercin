@@ -49,6 +49,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DataContext.cs" />
+    <Compile Include="Migrations\202406302147226_InitialCreat.cs" />
+    <Compile Include="Migrations\202406302147226_InitialCreat.Designer.cs">
+      <DependentUpon>202406302147226_InitialCreat.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -61,6 +65,11 @@
       <Project>{5e09ac0d-aeae-409e-b1cd-20c45de75317}</Project>
       <Name>Guvercin.Entities</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202406302147226_InitialCreat.resx">
+      <DependentUpon>202406302147226_InitialCreat.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
