@@ -227,10 +227,12 @@
     <Compile Include="Controllers\AccController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
+    <Compile Include="Controllers\YardimEtController.cs" />
     <Compile Include="Controllers\YardımTalebiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EtModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\RegViewModel.cs" />
     <Compile Include="Models\TalepModel.cs" />
@@ -245,8 +247,8 @@
     <Content Include="Views\Home\GetHelp.cshtml" />
     <Content Include="Views\Home\ProvideHelp.cshtml" />
     <Content Include="Views\Acc\Login.cshtml" />
-    <Content Include="Views\YardımTalebi\YardımTalepEt.cshtml" />
     <Content Include="Views\YardimTalebi\YardimTalepEt.cshtml" />
+    <Content Include="Views\YardimEt\YardimEt.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

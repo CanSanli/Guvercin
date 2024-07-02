@@ -62,7 +62,7 @@
                 <h3>Konum Bilgileri</h3>
                 @using (Html.BeginForm("Save", "YardimTalebi", FormMethod.Post))
                 {
-                    @Html.AntiForgeryToken()
+                    @*@Html.AntiForgeryToken()*@
 
                     <div class="form-group">
                         <label for="address">Adres</label>
@@ -82,7 +82,7 @@
                         <label for="description">Açıklama</label>
                         <input type="text" class="form-control" id="description" name="yardimTalebi.Aciklama" placeholder="Açıklama">
                     </div>
-                    <button type="button" class="btn btn-primary" onclick="addMarker()">Yardım İste</button>
+                    <button type="submit" class="btn btn-primary">Yardım İste</button>
                 }
 
                 <h4>Yardım Talepleri</h4>

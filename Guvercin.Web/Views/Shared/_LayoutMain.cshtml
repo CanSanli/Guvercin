@@ -1,10 +1,10 @@
 ﻿<!DOCTYPE html>
-
 <html lang="en" class="h-100" data-bs-theme="auto">
 <head>
+    <!-- ... -->
     <style>
         .custom-font {
-            font-family: 'Leelawadee UI', 'Arial Narrow', Arial, sans-serif, sans-serif;
+            font-family: 'Leelawadee UI', 'Arial Narrow', Arial, sans-serif;
         }
 
         .shadow-bottom {
@@ -20,26 +20,17 @@
             flex-direction: column;
         }
 
-        
-
-
-
-
-
-
         footer {
             bottom: 0;
             padding: 10px 0;
             text-align: center;
             flex-shrink: 0;
-            /*background-color: #343a40;*/
-            /*color: white;*/
-            font-size: 0.7rem; /* Yazı boyutunu küçültüyoruz */
+            font-size: 0.7rem;
         }
 
             footer h5 {
                 margin-bottom: 0.5rem;
-                font-size: 0.8rem; /* Başlık yazı boyutunu küçültüyoruz */
+                font-size: 0.8rem;
             }
 
             footer ul {
@@ -66,14 +57,13 @@
 
             footer p {
                 margin: 0;
-                font-size: 0.7rem; /* Alt metin yazı boyutunu küçültüyoruz */
-                text-align: right; /* Yazıyı sağa hizalıyoruz */
+                font-size: 0.7rem;
+                text-align: right;
             }
 
-      
         .container-fluid {
-            padding-left: 15px; /* Varsayılan padding */
-            padding-right: 15px; /* Varsayılan padding */
+            padding-left: 15px;
+            padding-right: 15px;
             padding-bottom: -10px;
         }
     </style>
@@ -82,7 +72,6 @@
             const themeSwitchers = document.querySelectorAll('[data-bs-theme-value]');
             const currentTheme = localStorage.getItem('theme') || 'auto';
 
-            // Mevcut temayı uygula
             setTheme(currentTheme, false);
 
             themeSwitchers.forEach(switcher => {
@@ -92,7 +81,6 @@
                 });
             });
 
-            // Sistemin tema tercihine göre otomatik modu güncelle
             window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
                 if (localStorage.getItem('theme') === 'auto') {
                     const newAutoTheme = e.matches ? 'dark' : 'light';
@@ -111,7 +99,6 @@
                     localStorage.setItem('theme', theme);
                 }
 
-                // Aktif tema düğmesini görsel olarak güncelle
                 themeSwitchers.forEach(switcher => {
                     switcher.classList.toggle('active', switcher.getAttribute('data-bs-theme-value') === theme);
                 });
@@ -122,93 +109,81 @@
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
     @Styles.Render("~/Content/css")
-    @Styles.Render("~/Content/css")
     <link href="~/Content/cover.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
-
-
-
-
-
 </head>
-
 <body class="d-flex h-100 text-bg-dark">
-
-    <div class=" h-100 d-flex  mx-auto flex-column  w-100">
-
+    <div class="h-100 d-flex mx-auto flex-column w-100">
         <header>
             <div class="px-3 py-2 shadow-bottom">
                 <a aria-current="page" class="navbar-brand fw-bolder fs-2 custom-font" href="/Home/Index">MELEK YATIRIM</a>
                 <nav class="nav nav-masthead justify-content-center float-md-end mx-xl-5">
-                    <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="/Home/Index">Ana Sayfa</a> @*!!!!!!!*@
+                    <a class="nav-link fw-bold py-1 px-2 active" aria-current="page" href="/Home/Index">Ana Sayfa</a>
                     <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Yardımlarım</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Home/GetHelp">Yardım Al</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Home/ProvideHelp">Yardım Et</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/YardimEt/YardimEt">Yardım Al</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/YardimTalebi/YardimTalepEt">Yardım Et</a>
                     <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Profilim</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Contact">Çıkış</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Register/Index">Kayıt Ol</a>
-
+                    @if (Session["KullaniciId"] != null)
+                    {
+                        <form action="/Acc/Logout" method="post">
+                            @Html.AntiForgeryToken()
+                            <button type="submit" class="nav-link fw-bold py-1 px-2 btn btn-link">Çıkış</button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a class="nav-link fw-bold py-1 px-2" href="/Acc/Login">Giriş</a>
+                        <a class="nav-link fw-bold py-1 px-2" href="/Register/Index">Kayıt Ol</a>
+                    }
                 </nav>
             </div>
         </header>
         <div class="py-5 container">
             @RenderBody()
         </div>
-
-        <div class="mw-100">
-            <footer class="bg-dark text-white pt-2">
-                <div class="container-fluid">
-                    <div class="row">
-                        <!-- İletişim Bilgileri -->
-                        <div class="col-md-4">
-                            <h5>İletişim</h5>
-                            <ul class="list-unstyled">
-                                <li><i class="fas fa-phone-alt"></i> Telefon: +90 123 456 78 90</li>
-                                <li><i class="fas fa-envelope"></i> E-posta: info@agisstudio.com</li>
-                                <li><i class="fas fa-map-marker-alt"></i> Adres: Yurtkur Cad. No: 123, Kırıkkale, Türkiye</li>
-                            </ul>
-
-                            <div class="social-links">
-                                <a href="#">Facebook</a>
-                                <a href="#">Twitter</a>
-                                <a href="#">Instagram</a>
-                                <a href="#">LinkedIn</a>
-                            </div>
-
-
-                        </div>
-                        <!-- Site Haritası -->
-                        <div class="col-md-4">
-                            <h5>Site Haritası</h5>
-                            <ul class="list-unstyled">
-                                <li><a href="/Home/Index" class="text-white">Ana Sayfa</a></li>
-                                <li><a href="/Home/About" class="text-white">Hakkımızda</a></li>
-                                <li><a href="#" class="text-white">Hizmetler</a></li>
-                                <li><a href="#" class="text-white">Blog</a></li>
-                                <li><a href="/Home/Contact" class="text-white">İletişim</a></li>
-                            </ul>
-                        </div>
-                        <!-- Yasal Bilgiler -->
-                        <div class="col-md-4">
-                            <h5>Yasal Bilgiler</h5>
-                            <ul class="list-unstyled">
-                                <li><a href="#" class="text-white">Gizlilik Politikası</a></li>
-                                <li><a href="#" class="text-white">Kullanım Şartları</a></li>
-                                <li><a href="#" class="text-white">Çerez Politikası</a></li>
-                            </ul>
+        <footer class="bg-dark text-white pt-2">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>İletişim</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-phone-alt"></i> Telefon: +90 123 456 78 90</li>
+                            <li><i class="fas fa-envelope"></i> E-posta: info@agisstudio.com</li>
+                            <li><i class="fas fa-map-marker-alt"></i> Adres: Yurtkur Cad. No: 123, Kırıkkale, Türkiye</li>
+                        </ul>
+                        <div class="social-links">
+                            <a href="#">Facebook</a>
+                            <a href="#">Twitter</a>
+                            <a href="#">Instagram</a>
+                            <a href="#">LinkedIn</a>
                         </div>
                     </div>
-                    <div class="row p-">
-                        <div class="col text-right ">
-                            <!-- class text-right ile sağa hizalama -->
-                            <p>&copy; 2024 Tüm Hakları Saklıdır. AGIS Studio.</p>
-                        </div>
-
+                    <div class="col-md-4">
+                        <h5>Site Haritası</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="/Home/Index" class="text-white">Ana Sayfa</a></li>
+                            <li><a href="/Home/About" class="text-white">Hakkımızda</a></li>
+                            <li><a href="#" class="text-white">Hizmetler</a></li>
+                            <li><a href="#" class="text-white">Blog</a></li>
+                            <li><a href="/Home/Contact" class="text-white">İletişim</a></li>
+                        </ul>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>Yasal Bilgiler</h5>
+                        <ul class="list-unstyled">
+                            <li><a href="#" class="text-white">Gizlilik Politikası</a></li>
+                            <li><a href="#" class="text-white">Kullanım Şartları</a></li>
+                            <li><a href="#" class="text-white">Çerez Politikası</a></li>
+                        </ul>
                     </div>
                 </div>
-            </footer>
-
-        </div>
+                <div class="row">
+                    <div class="col text-right">
+                        <p>&copy; 2024 Tüm Hakları Saklıdır. AGIS Studio.</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
     </div>
 
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
@@ -216,60 +191,25 @@
             <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z" />
         </symbol>
         <symbol id="circle-half" viewBox="0 0 16 16">
-            <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z" />
+            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zM8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0z" />
         </symbol>
         <symbol id="moon-stars-fill" viewBox="0 0 16 16">
-            <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
-            <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z" />
+            <path d="M6 0a.5.5 0 0 1 .5.5v1.09a.5.5 0 0 1-.374.48 5.5 5.5 0 1 0 6.705 6.705.5.5 0 0 1 .854-.373A7 7 0 1 1 6 .021V.5A.5.5 0 0 1 6 0z" />
+            <path d="M11.354 4.354a.5.5 0 0 1 .708 0l.5.5a.5.5 0 0 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm2-2a.5.5 0 0 1 .707 0l.5.5a.5.5 0 1 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm0 4a.5.5 0 0 1 .707 0l.5.5a.5.5 0 1 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707z" />
         </symbol>
         <symbol id="sun-fill" viewBox="0 0 16 16">
-            <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+            <path d="M8 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm0 4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm3-1.5a.5.5 0 0 1 .5.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm-7 0a.5.5 0 0 1 .5.5H4.5a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm.636-2.864a.5.5 0 0 1 .707 0l.5.5a.5.5 0 0 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm6.528 6.528a.5.5 0 0 1 .707 0l.5.5a.5.5 0 0 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm.707-6.528a.5.5 0 0 1 0 .707l-.5.5a.5.5 0 1 1-.707-.707l.5-.5a.5.5 0 0 1 .707 0zM4.864 10.864a.5.5 0 0 1 0 .707l-.5.5a.5.5 0 1 1-.707-.707l.5-.5a.5.5 0 0 1 .707 0zM8 3a5 5 0 1 1 0 10A5 5 0 0 1 8 3z" />
+        </symbol>
+        <symbol id="sun" viewBox="0 0 16 16">
+            <path d="M8 4.5a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm0 4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-1 0v-1a.5.5 0 0 1 .5-.5zm3-1.5a.5.5 0 0 1 .5.5h1a.5.5 0 0 1 0 1h-1a.5.5 0 0 1-.5-.5zm-7 0a.5.5 0 0 1 .5.5H4.5a.5.5 0 0 1 0 1H3.5a.5.5 0 0 1-.5-.5zm.636-2.864a.5.5 0 0 1 .707 0l.5.5a.5.5 0 0 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm6.528 6.528a.5.5 0 0 1 .707 0l.5.5a.5.5 0 0 1-.707.707l-.5-.5a.5.5 0 0 1 0-.707zm.707-6.528a.5.5 0 0 1 0 .707l-.5.5a.5.5 0 1 1-.707-.707l.5-.5a.5.5 0 0 1 .707 0zM4.864 10.864a.5.5 0 0 1 0 .707l-.5.5a.5.5 0 1 1-.707-.707l.5-.5a.5.5 0 0 1 .707 0zM8 3a5 5 0 1 1 0 10A5 5 0 0 1 8 3z" />
+        </symbol>
+        <symbol id="moon" viewBox="0 0 16 16">
+            <path d="M6 0a.5.5 0 0 1 .5.5v1.09a.5.5 0 0 1-.374.48 5.5 5.5 0 1 0 6.705 6.705.5.5 0 0 1 .854-.373A7 7 0 1 1 6 .021V.5A.5.5 0 0 1 6 0z" />
         </symbol>
     </svg>
-    <div class="dropdown position-fixed bottom-0 end-0 mb-3 me-3 bd-mode-toggle">
-
-        <button class="btn btn-bd-primary py-2 dropdown-toggle d-flex align-items-center"
-                id="bd-theme"
-                type="button"
-                aria-expanded="false"
-                data-bs-toggle="dropdown"
-                aria-label="Toggle theme (auto)">
-            <svg class="bi my-1 theme-icon-active" width="1em" height="1em"><use href="#circle-half"></use></svg>
-            <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
-        </button>
-        <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="bd-theme-text">
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#sun-fill"></use></svg>
-                    Light
-                    <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-            </li>
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#moon-stars-fill"></use></svg>
-                    Dark
-                    <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-            </li>
-            <li>
-                <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
-                    <svg class="bi me-2 opacity-50" width="1em" height="1em"><use href="#circle-half"></use></svg>
-                    Auto
-                    <svg class="bi ms-auto d-none" width="1em" height="1em"><use href="#check2"></use></svg>
-                </button>
-            </li>
-        </ul>
-    </div>
-
-
-
-
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
-    <script src="~/Scripts/bootstrap.bundle.min.js"></script>
-
     @RenderSection("scripts", required: false)
 </body>
 </html>

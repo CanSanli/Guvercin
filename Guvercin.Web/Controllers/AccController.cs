@@ -44,7 +44,5 @@ namespace GuvercinApp.Controllers
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }
-
-
     }
 }

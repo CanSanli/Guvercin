@@ -31,23 +31,20 @@ public class YardimTalebiController : Controller
             return RedirectToAction("Login", "Acc");
         }
 
-        if (ModelState.IsValid)
-        {
-            var talep = new YardimTalebi
-            {
-                KullaniciId = (int)Session["KullaniciId"],
-                YardimTuruId = model.YardimTalebi.YardimTuruId,
-                Adres = model.YardimTalebi.Adres,
-                Aciklama = model.YardimTalebi.Aciklama,
-                Enlem = model.Enlem,
-                Boylam = model.Boylam,
-                Tarih = DateTime.Now,
-                Durum = "Beklemede"
-            };
 
-            _yardimTalebiRepository.Insert(talep);
-            return RedirectToAction("YardimTalepEt");
-        }
+        var talep = new YardimTalebi
+        {
+            KullaniciId = (int)Session["KullaniciId"],
+            YardimTuruId = model.YardimTalebi.YardimTuruId,
+            Adres = model.YardimTalebi.Adres,
+            Aciklama = model.YardimTalebi.Aciklama,
+            Enlem = model.Enlem,
+            Boylam = model.Boylam,
+            Tarih = DateTime.Now,
+            Durum = "Beklemede"
+        };
+
+        _yardimTalebiRepository.Insert(talep);
 
         var yardimTurleri = _yardimTuruRepository.List();
         ViewBag.YardimTurleri = new SelectList(yardimTurleri, "YardimTuruId", "YardimTuruAdi");
