@@ -23,7 +23,7 @@
 
         .autocomplete-suggestions {
             border: 1px solid #d4d4d4;
-            background-color: #fff;
+            background-color: #343a40;
             max-height: 200px;
             overflow-y: auto;
             position: absolute;
@@ -36,7 +36,7 @@
         }
 
             .autocomplete-suggestion:hover {
-                background-color: #e9e9e9;
+                background-color: #495057;
             }
 
         .list-group-item {
@@ -62,7 +62,7 @@
                 <h3>Konum Bilgileri</h3>
                 @using (Html.BeginForm("Save", "YardimTalebi", FormMethod.Post))
                 {
-                    @*@Html.AntiForgeryToken()*@
+                    @Html.AntiForgeryToken()
 
                     <div class="form-group">
                         <label for="address">Adres</label>
@@ -72,16 +72,16 @@
                     <div class="form-group">
                         <label for="helpType">Yardım Türü</label>
                         @Html.DropDownListFor(model => model.YardimTalebi.YardimTuruId,
-                       ViewBag.YardimTurleri as SelectList,
-                       "Yardım Türü Seçiniz",
-                       new { @class = "form-control" })
-
-
+                        ViewBag.YardimTurleri as SelectList,
+                        "Yardım Türü Seçiniz",
+                        new { @class = "form-control" })
                     </div>
                     <div class="form-group">
                         <label for="description">Açıklama</label>
                         <input type="text" class="form-control" id="description" name="yardimTalebi.Aciklama" placeholder="Açıklama">
                     </div>
+                    <input type="hidden" id="enlem" name="Enlem" />
+                    <input type="hidden" id="boylam" name="Boylam" />
                     <button type="submit" class="btn btn-primary">Yardım İste</button>
                 }
 
@@ -126,6 +126,8 @@
                             suggestion.addEventListener('click', function () {
                                 input.value = item.display_name;
                                 document.getElementById('autocomplete-results').innerHTML = '';
+                                document.getElementById('enlem').value = item.lat;
+                                document.getElementById('boylam').value = item.lon;
                                 moveToLocation(item.lat, item.lon);
                             });
                             resultsContainer.appendChild(suggestion);
@@ -136,87 +138,6 @@
 
         function moveToLocation(lat, lon) {
             map.setView([lat, lon], 13);
-        }
-
-        function addMarker() {
-            if (markers.length >= maxPins) {
-                alert("Maksimum 3 pin ekleyebilirsiniz.");
-                return;
-            }
-            var address = document.getElementById('address').value;
-            var helpType = document.getElementById('helpType').value;
-            var description = document.getElementById('description').value;
-            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${address}&addressdetails=1&limit=1`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.length > 0) {
-                        var lat = data[0].lat;
-                        var lon = data[0].lon;
-                        var fullDescription = `${helpType}: ${description}`;
-                        addMarkerAtLocation(lat, lon, fullDescription, address);
-                    } else {
-                        alert('Geocode was not successful for the following reason: No results found');
-                    }
-                });
-        }
-
-        function addMarkerAtLocation(lat, lon, description, address) {
-            var marker = L.marker([lat, lon]).addTo(map)
-                .bindPopup(description + '<br><button onclick="removeMarker(this)">Sil</button>');
-            markers.push({ marker, lat, lon });
-            map.setView([lat, lon], 13);
-            addHelpRequest(address, description, lat, lon);
-        }
-
-        function addHelpRequest(address, description, lat, lon) {
-            var helpRequests = document.getElementById('helpRequests');
-            var listItem = document.createElement('li');
-            listItem.classList.add('list-group-item');
-            listItem.innerHTML = `
-                        <span>${address} - ${description}</span>
-                        <button class="btn btn-danger btn-sm" onclick="removeHelpRequest(this, ${lat}, ${lon})">Sil</button>
-                    `;
-            listItem.addEventListener('click', function (e) {
-                if (!e.target.classList.contains('btn-danger')) {
-                    map.setView([lat, lon], 13);
-                }
-            });
-            helpRequests.appendChild(listItem);
-        }
-
-        function removeHelpRequest(button, lat, lon) {
-            var listItem = button.parentElement;
-            var index = Array.from(listItem.parentElement.children).indexOf(listItem);
-            map.removeLayer(markers[index].marker);
-            markers.splice(index, 1);
-            listItem.remove();
-        }
-
-        function removeMarker(button) {
-            var marker = markers.find(m => m.marker.getPopup().getContent().includes(button.outerHTML));
-            if (marker) {
-                map.removeLayer(marker.marker);
-                markers = markers.filter(m => m !== marker);
-            }
-        }
-
-        function removeLastMarker() {
-            if (markers.length > 0) {
-                var lastMarker = markers.pop();
-                map.removeLayer(lastMarker.marker);
-                var helpRequests = document.getElementById('helpRequests');
-                helpRequests.removeChild(helpRequests.lastChild);
-            } else {
-                alert("Silinecek pin yok.");
-            }
-        }
-
-        function clearAllMarkers() {
-            markers.forEach(function (marker) {
-                map.removeLayer(marker.marker);
-            });
-            markers = [];
-            document.getElementById('helpRequests').innerHTML = '';
         }
 
         document.addEventListener("DOMContentLoaded", function () {

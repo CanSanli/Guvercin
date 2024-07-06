@@ -26,10 +26,9 @@ namespace Guvercin.BusinessLayer.Abstract
         public IEnumerable<T> Get(Expression<Func<T, bool>> filter = null, Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null, string includeProperties = "")
         {
             IQueryable<T> query = _objectSet;
-            if (filter !=null)
+            if (filter != null)
             {
                 query = query.Where(filter);
-
             }
             if (includeProperties != null)
             {
@@ -38,7 +37,7 @@ namespace Guvercin.BusinessLayer.Abstract
                     query = query.Include(item);
                 }
             }
-            if (orderBy !=null)
+            if (orderBy != null)
             {
                 return orderBy(query).ToList();
             }
@@ -46,9 +45,6 @@ namespace Guvercin.BusinessLayer.Abstract
             {
                 return query.ToList();
             }
-          
-
-            
         }
 
         public T GetbyId(int id)
@@ -80,7 +76,7 @@ namespace Guvercin.BusinessLayer.Abstract
                 {
                     foreach (var validationError in validationErrors.ValidationErrors)
                     {
-                       Console.WriteLine("Property: {0} Error: {1}",
+                        Console.WriteLine("Property: {0} Error: {1}",
                                           validationError.PropertyName,
                                           validationError.ErrorMessage);
                     }
@@ -93,6 +89,11 @@ namespace Guvercin.BusinessLayer.Abstract
             _objectSet.Attach(t);
             _dataContext.Entry(t).State = EntityState.Modified;
             Save();
+        }
+
+        public T Find(Expression<Func<T, bool>> filter)
+        {
+            return _objectSet.FirstOrDefault(filter);
         }
     }
 }

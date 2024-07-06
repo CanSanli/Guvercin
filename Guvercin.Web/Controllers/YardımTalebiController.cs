@@ -4,7 +4,6 @@ using System;
 using System.Linq;
 using System.Web.Mvc;
 
-
 public class YardimTalebiController : Controller
 {
     private readonly Repository<YardimTalebi> _yardimTalebiRepository = new Repository<YardimTalebi>();
@@ -31,6 +30,13 @@ public class YardimTalebiController : Controller
             return RedirectToAction("Login", "Acc");
         }
 
+        if (model.Enlem == 0 || model.Boylam == 0)
+        {
+            var yardimTurler = _yardimTuruRepository.List();
+            ViewBag.YardimTurleri = new SelectList(yardimTurler, "YardimTuruId", "YardimTuruAdi");
+            ModelState.AddModelError("", "Geçerli bir adres seçiniz.");
+            return View("YardimTalepEt");
+        }
 
         var talep = new YardimTalebi
         {
@@ -41,7 +47,7 @@ public class YardimTalebiController : Controller
             Enlem = model.Enlem,
             Boylam = model.Boylam,
             Tarih = DateTime.Now,
-            Durum = "Beklemede"
+            Durum = "Talepte"
         };
 
         _yardimTalebiRepository.Insert(talep);
@@ -51,4 +57,3 @@ public class YardimTalebiController : Controller
         return View("YardimTalepEt");
     }
 }
-
