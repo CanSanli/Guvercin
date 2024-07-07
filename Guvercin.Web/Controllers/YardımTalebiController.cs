@@ -30,14 +30,6 @@ public class YardimTalebiController : Controller
             return RedirectToAction("Login", "Acc");
         }
 
-        if (model.Enlem == 0 || model.Boylam == 0)
-        {
-            var yardimTurler = _yardimTuruRepository.List();
-            ViewBag.YardimTurleri = new SelectList(yardimTurler, "YardimTuruId", "YardimTuruAdi");
-            ModelState.AddModelError("", "Geçerli bir adres seçiniz.");
-            return View("YardimTalepEt");
-        }
-
         var talep = new YardimTalebi
         {
             KullaniciId = (int)Session["KullaniciId"],

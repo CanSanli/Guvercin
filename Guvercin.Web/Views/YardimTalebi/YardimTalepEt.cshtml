@@ -129,6 +129,7 @@
                                 document.getElementById('enlem').value = item.lat;
                                 document.getElementById('boylam').value = item.lon;
                                 moveToLocation(item.lat, item.lon);
+                                addMarker(item.lat, item.lon, item.display_name);
                             });
                             resultsContainer.appendChild(suggestion);
                         });
@@ -138,6 +139,25 @@
 
         function moveToLocation(lat, lon) {
             map.setView([lat, lon], 13);
+        }
+
+        function addMarker(lat, lon, description) {
+            if (markers.length >= maxPins) {
+                alert("Maksimum 3 pin ekleyebilirsiniz.");
+                return;
+            }
+            var marker = L.marker([lat, lon]).addTo(map)
+                .bindPopup(description + '<br><button onclick="removeMarker(this)">Sil</button>');
+            markers.push({ marker, lat, lon });
+            map.setView([lat, lon], 13);
+        }
+
+        function removeMarker(button) {
+            var marker = markers.find(m => m.marker.getPopup().getContent().includes(button.outerHTML));
+            if (marker) {
+                map.removeLayer(marker.marker);
+                markers = markers.filter(m => m !== marker);
+            }
         }
 
         document.addEventListener("DOMContentLoaded", function () {
