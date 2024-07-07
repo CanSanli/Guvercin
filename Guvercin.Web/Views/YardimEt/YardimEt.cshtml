@@ -109,7 +109,6 @@
             listItem.textContent = `${description} - ${address}`;
             listItem.addEventListener('click', function () {
                 selectedRequest = request;
-                document.getElementById('requestHelpButton').disabled = false;
                 document.getElementById('YardimTalebiId').value = request.Value;
                 loadOrganizations(address);
                 document.getElementById('yardimTalebiDropdown').textContent = listItem.textContent;
@@ -133,30 +132,41 @@
         var dropdownMenu = document.querySelector('#organizationDropdown + .dropdown-menu');
         dropdownMenu.innerHTML = '';
 
-        organizations.forEach(function (org, index) {
-            var listItem = document.createElement('a');
-            listItem.classList.add('dropdown-item');
-            listItem.href = '#';
-            listItem.textContent = org.Name;
-            listItem.dataset.organizationId = org.Id;
-            listItem.addEventListener('click', function () {
-                document.getElementById('organizationDropdown').textContent = listItem.textContent;
-                document.getElementById('KurumId').value = org.Id;
-                document.getElementById('requestHelpButton').disabled = false;
-                setActiveOrganization(listItem);
+        if (organizations.length === 0) {
+            var noOrgItem = document.createElement('a');
+            noOrgItem.classList.add('dropdown-item');
+            noOrgItem.href = '#';
+            noOrgItem.textContent = 'Bu konumda faaliyet gösteren bir yardım kuruluşu bulunamadı';
+            dropdownMenu.appendChild(noOrgItem);
+            document.getElementById('organizationDropdown').textContent = 'Yardım Kuruluşu Seçiniz';
+            document.getElementById('organizationDropdown').disabled = true;
+            document.getElementById('requestHelpButton').disabled = true;
+        } else {
+            organizations.forEach(function (org, index) {
+                var listItem = document.createElement('a');
+                listItem.classList.add('dropdown-item');
+                listItem.href = '#';
+                listItem.textContent = org.Name;
+                listItem.dataset.organizationId = org.Id;
+                listItem.addEventListener('click', function () {
+                    document.getElementById('organizationDropdown').textContent = listItem.textContent;
+                    document.getElementById('KurumId').value = org.Id;
+                    document.getElementById('requestHelpButton').disabled = false;
+                    setActiveOrganization(listItem);
+                });
+
+                dropdownMenu.appendChild(listItem);
+
+                // İlk kuruluşu otomatik olarak seçme
+                if (index === 0) {
+                    document.getElementById('organizationDropdown').textContent = org.Name;
+                    document.getElementById('KurumId').value = org.Id;
+                    setActiveOrganization(listItem);
+                }
             });
 
-            dropdownMenu.appendChild(listItem);
-
-            // İlk kuruluşu otomatik olarak seçme
-            if (index === 0) {
-                document.getElementById('organizationDropdown').textContent = org.Name;
-                document.getElementById('KurumId').value = org.Id;
-                setActiveOrganization(listItem);
-            }
-        });
-
-        document.getElementById('organizationDropdown').disabled = organizations.length === 0;
+            document.getElementById('organizationDropdown').disabled = organizations.length === 0;
+        }
     }
 
     function setActiveOrganization(selectedItem) {

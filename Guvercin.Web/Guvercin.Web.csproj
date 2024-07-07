@@ -234,6 +234,7 @@
     </Compile>
     <Compile Include="Models\EtModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\RegViewModel.cs" />
     <Compile Include="Models\TalepModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -249,6 +250,7 @@
     <Content Include="Views\Acc\Login.cshtml" />
     <Content Include="Views\YardimTalebi\YardimTalepEt.cshtml" />
     <Content Include="Views\YardimEt\YardimEt.cshtml" />
+    <Content Include="Views\Acc\Profile.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

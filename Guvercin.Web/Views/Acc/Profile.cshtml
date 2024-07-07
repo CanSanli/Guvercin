@@ -1,0 +1,60 @@
+﻿@model GuvercinApp.Models.ProfileViewModel
+
+@{
+    ViewBag.Title = "PROFİL DÜZENLE";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+
+
+@using (Html.BeginForm("SaveProfile", "Acc", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Kullanici.KullaniciId)
+    @Html.HiddenFor(model => model.Kullanici.KullaniciTipi)
+    <h2>PROFİL DÜZENLE</h2>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        @Html.TextBoxFor(model => model.Kullanici.Email, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="mb-3">
+        <label for="telefon" class="form-label">Telefon</label>
+        @Html.TextBoxFor(model => model.Kullanici.Telefon, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="mb-3">
+        <label for="adres" class="form-label">Adres</label>
+        @Html.TextBoxFor(model => model.Kullanici.Adres, new { @class = "form-control", required = "required" })
+    </div>
+
+    if (Model.Kullanici.KullaniciTipi == "bireysel")
+    {
+        <div class="mb-3">
+            <label for="ad" class="form-label">Ad</label>
+            @Html.TextBoxFor(model => model.BireyselKullanici.Ad, new { @class = "form-control", required = "required" })
+        </div>
+        <div class="mb-3">
+            <label for="soyad" class="form-label">Soyad</label>
+            @Html.TextBoxFor(model => model.BireyselKullanici.Soyad, new { @class = "form-control", required = "required" })
+        </div>
+        <div class="mb-3">
+            <label for="dogumTarihi" class="form-label">Doğum Tarihi</label>
+            @Html.TextBoxFor(model => model.BireyselKullanici.DogumTarihi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+        </div>
+    }
+    else if (Model.Kullanici.KullaniciTipi == "kurumsal")
+    {
+        <div class="mb-3">
+            <label for="kurumAdi" class="form-label">Kurum Adı</label>
+            @Html.TextBoxFor(model => model.KurumsalKullanici.KurumAdi, new { @class = "form-control", required = "required" })
+        </div>
+        <div class="mb-3">
+            <label for="vergiNo" class="form-label">Vergi No</label>
+            @Html.TextBoxFor(model => model.KurumsalKullanici.VergiNo, new { @class = "form-control", required = "required" })
+        </div>
+        <div class="mb-3">
+            <label for="kurulusTarihi" class="form-label">Kuruluş Tarihi</label>
+            @Html.TextBoxFor(model => model.KurumsalKullanici.KurulusTarihi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", required = "required" })
+        </div>
+    }
+
+    <button type="submit" class="btn btn-primary">Kaydet</button>
+}
