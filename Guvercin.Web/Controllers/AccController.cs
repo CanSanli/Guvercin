@@ -110,7 +110,8 @@ namespace GuvercinApp.Controllers
             {
                 return HttpNotFound("Kullanıcı bulunamadı.");
             }
-
+            kullanici.KullaniciAdi = model.Kullanici.KullaniciAdi;
+            kullanici.Sifre = model.Kullanici.Sifre;
             kullanici.Email = model.Kullanici.Email;
             kullanici.Telefon = model.Kullanici.Telefon;
             kullanici.Adres = model.Kullanici.Adres;

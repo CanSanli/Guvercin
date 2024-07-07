@@ -56,5 +56,15 @@
         </div>
     }
 
+    <!-- Kullanıcı adı ve şifre değiştirme -->
+    <div class="mb-3">
+        <label for="kullaniciAdi" class="form-label">Kullanıcı Adı</label>
+        @Html.TextBoxFor(model => model.Kullanici.KullaniciAdi, new { @class = "form-control", required = "required" })
+    </div>
+    <div class="mb-3">
+        <label for="sifre" class="form-label">Şifre</label>
+        @Html.TextBoxFor(model => model.Kullanici.Sifre, new { @class = "form-control", required = "required" })
+    </div>
+
     <button type="submit" class="btn btn-primary">Kaydet</button>
 }
