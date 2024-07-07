@@ -4,40 +4,190 @@
     ViewBag.Title = "YardimTaleplerim";
     Layout = "~/Views/Shared/_LayoutMain.cshtml";
 }
+<style>
+    body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    }
 
-<h2>Yardim Taleplerim</h2>
+    .hero-section {
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://via.placeholder.com/1500x600') no-repeat center center/cover;
+        height: 600px;
+        position: relative;
+        color: white;
+        text-align: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-<div class="btn-group-vertical">
-    <button class="btn btn-primary" onclick="filterTalepler('all')">Tümü</button>
-    <button class="btn btn-primary" onclick="filterTalepler('tamamlandi')">Tamamlandı</button>
-    <button class="btn btn-primary" onclick="filterTalepler('onaylandi')">Onaylandı</button>
-    <button class="btn btn-primary" onclick="filterTalepler('beklemede')">Beklemede</button>
-    <button class="btn btn-primary" onclick="filterTalepler('talepte')">Talepte</button>
-</div>
+    .hero-content h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        animation: fadeInDown 1s ease-out;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Yardım Turu</th>
-            <th>Adres</th>
-            <th>Açıklama</th>
-            <th>Durum</th>
-            <th>Tarih</th>
-        </tr>
-    </thead>
-    <tbody id="taleplerBody">
-        @foreach (var talep in Model.YardimTalepler)
-        {
-            <tr>
-                <td>@talep.YardimTuru.YardimTuruAdi</td>
-                <td>@talep.Adres</td>
-                <td>@talep.Aciklama</td>
-                <td>@talep.Durum</td>
-                <td>@talep.Tarih</td>
-            </tr>
+    .hero-content p {
+        font-size: 1.5rem;
+        max-width: 800px;
+        margin: 0 auto;
+        animation: fadeInUp 1s ease-out;
+    }
+
+    .content-section {
+        padding: 60px 20px;
+        text-align: center;
+        margin-bottom: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+        .content-section h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
         }
-    </tbody>
-</table>
+
+        .content-section p {
+            font-size: 1rem;
+            color: #6c757d;
+            animation: fadeInUp 1.5s ease-out;
+        }
+
+    .feature-box {
+        padding: 20px;
+        transition: transform 0.3s ease-in-out;
+        border-radius: 10px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+        .feature-box i {
+            color: #007bff;
+            margin-bottom: 15px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .feature-box h3 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+            animation: fadeInUp 1.2s ease-out;
+        }
+
+        .feature-box p {
+            font-size: 1rem;
+            color: #6c757d;
+            animation: fadeInUp 1.4s ease-out;
+        }
+
+    .team-section {
+        padding: 60px 20px;
+        animation: fadeIn 1s ease-out;
+    }
+
+        .team-section h2 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .team-section .member {
+            padding: 20px;
+            animation: fadeIn 1s ease-out;
+        }
+
+            .team-section .member img {
+                border-radius: 50%;
+                margin-bottom: 15px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+                animation: fadeInUp 1s ease-out;
+            }
+
+            .team-section .member h4 {
+                margin-bottom: 10px;
+                font-size: 1.25rem;
+                font-weight: 600;
+                animation: fadeInUp 1.2s ease-out;
+            }
+
+            .team-section .member p {
+                font-size: 1rem;
+                color: #6c757d;
+                animation: fadeInUp 1.4s ease-out;
+            }
+
+    @@keyframes fadeInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+<div class="container content-section row w-100 feature-box">
+    <h2>Yardim Taleplerim</h2>
+
+    <div class="btn-group-horizontal">
+        <button class="btn btn-primary" onclick="filterTalepler('all')">Tümü</button>
+        <button class="btn btn-primary" onclick="filterTalepler('tamamlandi')">Tamamlandı</button>
+        <button class="btn btn-primary" onclick="filterTalepler('onaylandi')">Onaylandı</button>
+        <button class="btn btn-primary" onclick="filterTalepler('beklemede')">Beklemede</button>
+        <button class="btn btn-primary" onclick="filterTalepler('reddedildi')">Reddedildi</button>
+        <button class="btn btn-primary" onclick="filterTalepler('tamamlanamadi')">Tamamlanamadı</button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Yardım Turu</th>
+                <th>Adres</th>
+                <th>Açıklama</th>
+                <th>Durum</th>
+                <th>Tarih</th>
+            </tr>
+        </thead>
+        <tbody id="taleplerBody">
+            @foreach (var talep in Model.YardimTalepler)
+            {
+                <tr>
+                    <td>@talep.YardimTuru.YardimTuruAdi</td>
+                    <td>@talep.Adres</td>
+                    <td>@talep.Aciklama</td>
+                    <td>@talep.Durum</td>
+                    <td>@talep.Tarih</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 <script>
     function filterTalepler(status) {

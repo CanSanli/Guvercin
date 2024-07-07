@@ -1,0 +1,101 @@
+﻿@model GuvercinApp.Models.IslemlerViewModel
+
+@{
+    ViewBag.Title = "İşlemler";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+<script>
+    function filterEtler(status) {
+        var rows = document.getElementById("etlerBody").rows;
+        for (var i = 0; i < rows.length; i++) {
+            var durum = rows[i].cells[4].innerText.toLowerCase().trim(); // Check the Onay Durumu (Approval Status) column
+            if (status === "tum") {
+                rows[i].style.display = "";
+            } else if (durum === status) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+
+    function onayla(id) {
+        $.post('@Url.Action("Onayla", "Yardimlarim")', { id: id }, function () {
+            location.reload();
+        });
+    }
+
+    function reddet(id) {
+        $.post('@Url.Action("Reddet", "Yardimlarim")', { id: id }, function () {
+            location.reload();
+        });
+    }
+
+    function tamamlandi(id) {
+        $.post('@Url.Action("Tamamlandi", "Yardimlarim")', { id: id }, function () {
+            location.reload();
+        });
+    }
+
+    function tamamlanamadi(id) {
+        $.post('@Url.Action("Tamamlanamadi", "Yardimlarim")', { id: id }, function () {
+            location.reload();
+        });
+    }
+</script>
+
+<div class="container content-section row w-100 feature-box">
+    <h2>İşlemler</h2>
+
+    <div class="btn-group-horizontal">
+        <button class="btn btn-primary" onclick="filterEtler('tum')">Tümü</button>
+        <button class="btn btn-primary" onclick="filterEtler('beklemede')">Gelen Talepler</button>
+        <button class="btn btn-primary" onclick="filterEtler('onaylandi')">Onaylanan Talepler</button>
+        <button class="btn btn-primary" onclick="filterEtler('tamamlandi')">Tamamlanan Talepler</button>
+        <button class="btn btn-primary" onclick="filterEtler('tamamlanamadi')">Tamamlanamayan Talepler</button>
+        <button class="btn btn-primary" onclick="filterEtler('reddedildi')">Reddedilen Talepler</button>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Yardım Turu</th>
+                <th>Açıklama</th>
+                <th>Kurum Adı</th>
+                <th>Adres</th>
+                <th>Onay Durumu</th>
+                <th>Talep Tarihi</th>
+                <th>Onay Tarihi</th>
+                <th>Tamamlanma Tarihi</th>
+                <th>İşlem</th>
+            </tr>
+        </thead>
+        <tbody id="etlerBody">
+            @foreach (var et in Model.ButunTalepler)
+            {
+                <tr>
+                    <td>@et.YardimTalebi.YardimTuru.YardimTuruAdi</td>
+                    <td>@et.YardimTalebi.Aciklama</td>
+                    <td>@et.KurumsalKullanici.KurumAdi</td>
+                    <td>@et.YardimTalebi.Adres</td>
+                    <td>@et.OnayDurumu</td>
+                    <td>@et.YardimTalebi.Tarih</td>
+                    <td>@(et.OnayTarihi == null ? "Onaylanmadı" : et.OnayTarihi.ToString())</td>
+                    <td>@(et.TamamlanmaTarihi == null ? "Tamamlanmadı" : et.TamamlanmaTarihi.ToString())</td>
+                    <td>
+                        @if (et.OnayDurumu == "Beklemede")
+                        {
+                            <button class="btn btn-success" onclick="onayla(@et.YardimEtId)">Onayla</button>
+                            <button class="btn btn-danger" onclick="reddet(@et.YardimEtId)">Reddet</button>
+                        }
+                        else if (et.OnayDurumu == "Onaylandi")
+                        {
+                        <button class="btn btn-success" onclick="tamamlandi(@et.YardimEtId)">Tamamlandı</button>
+                        <button class="btn btn-warning" onclick="tamamlanamadi(@et.YardimEtId)">Tamamlanamadı</button>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
