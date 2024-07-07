@@ -1,0 +1,54 @@
+﻿@model GuvercinApp.Models.YardimListViewModel
+
+@{
+    ViewBag.Title = "YardimTaleplerim";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Yardim Taleplerim</h2>
+
+<div class="btn-group-vertical">
+    <button class="btn btn-primary" onclick="filterTalepler('all')">Tümü</button>
+    <button class="btn btn-primary" onclick="filterTalepler('tamamlandi')">Tamamlandı</button>
+    <button class="btn btn-primary" onclick="filterTalepler('onaylandi')">Onaylandı</button>
+    <button class="btn btn-primary" onclick="filterTalepler('beklemede')">Beklemede</button>
+    <button class="btn btn-primary" onclick="filterTalepler('talepte')">Talepte</button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Yardım Turu</th>
+            <th>Adres</th>
+            <th>Açıklama</th>
+            <th>Durum</th>
+            <th>Tarih</th>
+        </tr>
+    </thead>
+    <tbody id="taleplerBody">
+        @foreach (var talep in Model.YardimTalepler)
+        {
+            <tr>
+                <td>@talep.YardimTuru.YardimTuruAdi</td>
+                <td>@talep.Adres</td>
+                <td>@talep.Aciklama</td>
+                <td>@talep.Durum</td>
+                <td>@talep.Tarih</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filterTalepler(status) {
+        var rows = document.getElementById("taleplerBody").rows;
+        for (var i = 0; i < rows.length; i++) {
+            var durum = rows[i].cells[3].innerText.toLowerCase().trim();
+            if (status === "all" || durum === status) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+</script>

@@ -158,7 +158,6 @@
     <link href="~/Content/cover.css" rel="stylesheet" />
     @Scripts.Render("~/bundles/modernizr")
 </head>
-</head>
 <body class="d-flex h-100 text-bg-dark">
     <div class="h-100 d-flex mx-auto flex-column w-100">
         <header>
@@ -166,8 +165,12 @@
                 <a aria-current="page" class="navbar-brand fw-bolder fs-2 custom-font" href="/Home/Index">MELEK YATIRIM</a>
                 <nav class="nav nav-masthead justify-content-center float-md-end mx-xl-5">
                     <a class="nav-link fw-bold py-1 px-2" href="/Home/Index">Ana Sayfa</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Index">Yardım Taleplerim</a>
-                    <a class="nav-link fw-bold py-1 px-2" href="/Home/Index">Yardım Ettiklerim</a>
+                    @if (Session["KullaniciId"] != null && Session["KullaniciTipi"] != null && Session["KullaniciTipi"].ToString() == "kurumsal")
+                    {
+                        <a class="nav-link fw-bold py-1 px-2" href="/Yardimlarim/Islemler">İşlemler</a>
+                    }
+                    <a class="nav-link fw-bold py-1 px-2" href="/Yardimlarim/YardimTaleplerim">Yardım Taleplerim</a>
+                    <a class="nav-link fw-bold py-1 px-2" href="/Yardimlarim/YardimEttiklerim">Yardım Ettiklerim</a>
                     <a class="nav-link fw-bold py-1 px-2" href="/YardimEt/YardimEt">Yardım Et</a>
                     <a class="nav-link fw-bold py-1 px-2" href="/YardimTalebi/YardimTalepEt">Yardım Al</a>
                     <a class="nav-link fw-bold py-1 px-2" href="/Acc/Profile">Profilim</a>
@@ -182,6 +185,7 @@
                     {
                         <a class="nav-link fw-bold py-1 px-2" href="/Acc/Login">Giriş</a>
                         <a class="nav-link fw-bold py-1 px-2" href="/Register/Index">Kayıt Ol</a>}
+
                 </nav>
             </div>
         </header>

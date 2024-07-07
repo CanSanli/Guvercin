@@ -1,0 +1,60 @@
+﻿@model GuvercinApp.Models.YardimListViewModel
+
+@{
+    ViewBag.Title = "YardimEttiklerim";
+    Layout = "~/Views/Shared/_LayoutMain.cshtml";
+}
+
+<h2>Yardim Ettiklerim</h2>
+
+<div class="btn-group-vertical">
+    <button class="btn btn-primary" onclick="filterEtler('all')">Tümü</button>
+    <button class="btn btn-primary" onclick="filterEtler('tamamlandi')">Tamamlandı</button>
+    <button class="btn btn-primary" onclick="filterEtler('onaylandi')">Onaylandı</button>
+    <button class="btn btn-primary" onclick="filterEtler('beklemede')">Beklemede</button>
+    <button class="btn btn-primary" onclick="filterEtler('talepte')">Talepte</button>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Yardım Turu</th>
+            <th>Açıklama</th>
+            <th>Kurum Adı</th>
+            <th>Adres</th>
+            <th>Onay Durumu</th>
+            <th>Talep Tarihi</th>
+            <th>Onay Tarihi</th>
+            <th>Tamamlanma Tarihi</th>
+        </tr>
+    </thead>
+    <tbody id="etlerBody">
+        @foreach (var et in Model.YardimEtler)
+        {
+            <tr>
+                <td>@et.YardimTalebi.YardimTuru.YardimTuruAdi</td>
+                <td>@et.YardimTalebi.Aciklama</td>
+                <td>@et.KurumsalKullanici.KurumAdi</td>
+                <td>@et.YardimTalebi.Adres</td>
+                <td>@et.OnayDurumu</td>
+                <td>@et.YardimTalebi.Tarih</td>
+                <td>@(et.OnayTarihi == null ? "Onaylanmadı" : et.OnayTarihi.ToString())</td>
+                <td>@(et.TamamlanmaTarihi == null ? "Tamamlanmadı" : et.TamamlanmaTarihi.ToString())</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    function filterEtler(status) {
+        var rows = document.getElementById("etlerBody").rows;
+        for (var i = 0; i < rows.length; i++) {
+            var durum = rows[i].cells[4].innerText.toLowerCase().trim(); // Check the Onay Durumu (Approval Status) column
+            if (status === "all" || durum === status) {
+                rows[i].style.display = "";
+            } else {
+                rows[i].style.display = "none";
+            }
+        }
+    }
+</script>

@@ -31,6 +31,7 @@ namespace GuvercinApp.Controllers
             if (user != null)
             {
                 Session["KullaniciId"] = user.KullaniciId;
+                Session["KullaniciTipi"] = user.KullaniciTipi;
                 FormsAuthentication.SetAuthCookie(user.KullaniciAdi, false);
                 return RedirectToAction("Index", "Home");
             }
@@ -41,6 +42,7 @@ namespace GuvercinApp.Controllers
         public ActionResult Logout()
         {
             Session.Remove("KullaniciId");
+            Session.Remove("KullaniciTipi");
             FormsAuthentication.SignOut();
             return RedirectToAction("Login");
         }

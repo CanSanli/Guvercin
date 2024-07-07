@@ -228,6 +228,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\RegisterController.cs" />
     <Compile Include="Controllers\YardimEtController.cs" />
+    <Compile Include="Controllers\YardimlarimController.cs" />
     <Compile Include="Controllers\YardımTalebiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -237,6 +238,7 @@
     <Compile Include="Models\ProfileViewModel.cs" />
     <Compile Include="Models\RegViewModel.cs" />
     <Compile Include="Models\TalepModel.cs" />
+    <Compile Include="Models\YardimListViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -251,6 +253,8 @@
     <Content Include="Views\YardimTalebi\YardimTalepEt.cshtml" />
     <Content Include="Views\YardimEt\YardimEt.cshtml" />
     <Content Include="Views\Acc\Profile.cshtml" />
+    <Content Include="Views\Yardimlarim\YardimTaleplerim.cshtml" />
+    <Content Include="Views\Yardimlarim\YardimEttiklerim.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
